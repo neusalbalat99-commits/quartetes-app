@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #a8d48c;
+   
+}
+
+.menu {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    background: #a8d48c;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+    line-height: 1.6;
+    white-space: pre-line; /* 🔥 respecta salts de línia */
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+.item {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    white-space: pre-line;
+    transition: transform 0.2s;
+}
+
+.item:hover {
+    transform: scale(1.02);
+}
+
+.tema {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.subtema {
+    font-size: 11px;
+    color: #999;
+    font-style: italic;
+    margin-bottom: 2px;
+}
