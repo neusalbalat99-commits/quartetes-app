@@ -9,26 +9,44 @@
 
 <body>
 
-    <h1>Quartetes Populars</h1>
+    <h1 class="title">QUARTETES POPULARS</h1>
 
-    <div class="menu">
-
-        <button onclick="mostrarAleatoria()">
-            🎲 Quarteta Aleatòria
+    <!-- 🔥 VISTES -->
+    <div id="home" class="view active">
+         <button class="random-btn" onclick="mostrarAleatoria()">
+                    🎲 Nova quarteta
         </button>
 
-        <input
+        <div id="resultado" class="card"></div>
+    </div>
+
+   <div id="llistat" class="view">
+
+         <input
             type="text"
             id="busqueda"
             placeholder="Buscar..."
-            onkeyup="buscar()"
-        >
+            onkeyup="actualitzarLlista()"
+        />
 
+        <select id="filtroTema" onchange="actualitzarLlista()">
+            <option value="">Tots els temes</option>
+        </select>
+
+        <div id="lista" class="grid"></div>
+
+    </div>  
+
+    <div id="favorits" class="view">
+        <h2 class="empty">Encara no tens favorits</h2>
     </div>
 
-    <div id="resultado" class="card"></div>
-
-    <div id="lista" class="grid"></div>
+    <!-- 🔻 MENU INFERIOR -->
+    <div class="bottom-nav">
+        <button onclick="canviarVista('home')">🎲</button>
+        <button onclick="canviarVista('llistat')">📚</button>
+        <button onclick="canviarVista('favorits')">⭐</button>
+    </div>
 
     <script src="app.js"></script>
 
