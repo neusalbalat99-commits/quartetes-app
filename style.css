@@ -123,6 +123,7 @@ input {
     transform: scale(0.9);
 }
 
+/* 🔥 BOTÓ RANDOM */
 .random-btn {
     display: block;
     margin: 10px auto 15px auto;
@@ -131,4 +132,61 @@ input {
     padding: 10px 16px;
     border-radius: 12px;
     font-size: 14px;
+}
+
+/* =========================================================
+   📱 A PARTIR D'ACÍ: MÒBIL (SEGUR, NO TOCA DESKTOP)
+========================================================= */
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 10px;
+        padding-bottom: 80px;
+    }
+
+    /* TÍTOL més compacte */
+    .title {
+        font-size: 18px;
+        letter-spacing: 2px;
+        margin: 10px 0;
+    }
+
+    /* CARDS més còmodes */
+    .card {
+        font-size: 16px;
+        padding: 15px;
+        border-radius: 14px;
+    }
+
+    /* LLISTA 1 columna */
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .item {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    /* INPUT més usable */
+    input {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    /* BOTONS més tàctils */
+    button {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    /* MENÚ inferior més segur */
+    .bottom-nav {
+        height: 65px;
+    }
+
+    .bottom-nav button {
+        font-size: 22px;
+    }
 }
