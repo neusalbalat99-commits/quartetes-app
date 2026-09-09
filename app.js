@@ -322,62 +322,66 @@ function actualitzarLlista() {
         });
 
 
-    lista.innerHTML = filtrats
-        .map(d => `
+  lista.innerHTML = filtrats
+    .map(d => `
 
-            <div class="item">
+        <div class="item">
 
-                <div class="tema">
-                    ${d.tema || ""}
-                </div>
+            <div class="tema">
+                ${d.tema || ""}
+            </div>
 
-                <div class="subtema">
-                    ${d.subtema || ""}
-                </div>
+            <div class="subtema">
+                ${d.subtema || ""}
+            </div>
 
-                <p>
-                    ${d.quarteta || ""}
-                </p>
+            <p>
+                ${d.quarteta || ""}
+            </p>
 
 
-                <div class="menu-quarteta">
+            <div class="menu-quarteta">
+
+                <button
+                    type="button"
+                    class="boto-menu-quarteta"
+                    onclick="obrirMenuQuarteta(event, '${d.id}')"
+                    aria-label="Opcions"
+                >
+                    ⋮
+                </button>
+
+
+                <div
+                    id="menu-${d.id}"
+                    class="opcions-quarteta"
+                    onclick="event.stopPropagation()"
+                >
 
                     <button
-                        class="boto-menu-quarteta"
-                        onclick="obrirMenuQuarteta(event, '${d.id}')"
-                        aria-label="Opcions"
+                        type="button"
+                        onclick="editarQuarteta('${d.id}')"
                     >
-                        ⋮
+                        ✏️ Editar
                     </button>
 
 
-                    <div
-                        id="menu-${d.id}"
-                        class="opcions-quarteta"
+                    <button
+                        type="button"
+                        class="opcio-borrar"
+                        onclick="borrarQuarteta('${d.id}')"
                     >
-
-                        <button
-                            onclick="editarQuarteta('${d.id}')"
-                        >
-                            ✏️ Editar
-                        </button>
-
-
-                        <button
-                            class="opcio-borrar"
-                            onclick="borrarQuarteta('${d.id}')"
-                        >
-                            🗑️ Borrar
-                        </button>
-
-                    </div>
+                        🗑️ Borrar
+                    </button>
 
                 </div>
 
             </div>
 
-        `)
-        .join("");
+        </div>
+
+    `)
+    .join("");
 
 }
 
@@ -692,10 +696,7 @@ function canviarTemaNou() {
 // MENÚ DE TRES PUNTS
 // =========================================================
 
-function obrirMenuQuarteta(
-    event,
-    id
-) {
+function obrirMenuQuarteta(event, id) {
 
     event.stopPropagation();
 
@@ -711,29 +712,52 @@ function obrirMenuQuarteta(
     }
 
 
+    const jaEstavaObert =
+        menu.classList.contains(
+            "obert"
+        );
+
+
     document
         .querySelectorAll(
             ".opcions-quarteta"
         )
         .forEach(m => {
 
-            if (m !== menu) {
-
-                m.classList.remove(
-                    "obert"
-                );
-
-            }
+            m.classList.remove(
+                "obert"
+            );
 
         });
 
 
-    menu.classList.toggle(
-        "obert"
-    );
+    if (!jaEstavaObert) {
+
+        menu.classList.add(
+            "obert"
+        );
+
+    }
 
 }
+document.addEventListener(
+    "click",
+    () => {
 
+        document
+            .querySelectorAll(
+                ".opcions-quarteta"
+            )
+            .forEach(menu => {
+
+                menu.classList.remove(
+                    "obert"
+                );
+
+            });
+
+    }
+);
 
 // =========================================================
 // TANCAR MENÚ TOCANT FORA
