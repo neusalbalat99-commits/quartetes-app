@@ -300,22 +300,6 @@ select {
     font-size: 14px;
 }
 
-.selector-tema::after {
-    content: "⌄";
-
-    position: absolute;
-
-    right: 10px;
-    top: 50%;
-
-    transform: translateY(-55%);
-
-    color: var(--text-soft);
-
-    font-size: 17px;
-
-    pointer-events: none;
-}
 
 
 /* =========================================================
@@ -617,9 +601,17 @@ select {
         font-size: 14px;
     }
 
-    .selector-tema-compacte {
-        width: 102px;
-    }
+   .selector-tema-compacte select {
+    height: 46px;
+
+    padding: 0 12px;
+
+    font-size: 14px;
+
+    text-align: center;
+
+    text-align-last: center;
+}
 
     .selector-tema-compacte select {
         font-size: 14px;
