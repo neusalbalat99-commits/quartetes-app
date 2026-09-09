@@ -139,11 +139,26 @@ window.addEventListener("DOMContentLoaded", async () => {
 // ----------------------
 
 function mostrarFormulari() {
+
+    document.getElementById("zonaLlistat").style.display = "none";
+
     document.getElementById("formulariQuarteta").style.display = "block";
+
+    document.getElementById("botoAfegirQuarteta").style.display = "none";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 function tancarFormulari() {
+
     document.getElementById("formulariQuarteta").style.display = "none";
+
+    document.getElementById("zonaLlistat").style.display = "block";
+
+    document.getElementById("botoAfegirQuarteta").style.display = "flex";
 }
 
 async function guardarQuarteta() {
