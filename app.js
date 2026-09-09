@@ -322,23 +322,15 @@ function actualitzarLlista() {
         });
 
 
-  lista.innerHTML = filtrats
+lista.innerHTML = filtrats
     .map(d => `
-
         <div class="item">
 
-            <div class="tema">
-                ${d.tema || ""}
-            </div>
+            <div class="tema">${d.tema || ""}</div>
 
-            <div class="subtema">
-                ${d.subtema || ""}
-            </div>
+            <div class="subtema">${d.subtema || ""}</div>
 
-            <p>
-                ${d.quarteta || ""}
-            </p>
-
+            <p>${d.quarteta || ""}</p>
 
             <div class="menu-quarteta">
 
@@ -347,10 +339,7 @@ function actualitzarLlista() {
                     class="boto-menu-quarteta"
                     onclick="obrirMenuQuarteta(event, '${d.id}')"
                     aria-label="Opcions"
-                >
-                    ⋮
-                </button>
-
+                >⋮</button>
 
                 <div
                     id="menu-${d.id}"
@@ -361,29 +350,21 @@ function actualitzarLlista() {
                     <button
                         type="button"
                         onclick="editarQuarteta('${d.id}')"
-                    >
-                        ✏️ Editar
-                    </button>
-
+                    >✏️ Editar</button>
 
                     <button
                         type="button"
                         class="opcio-borrar"
                         onclick="borrarQuarteta('${d.id}')"
-                    >
-                        🗑️ Borrar
-                    </button>
+                    >🗑️ Borrar</button>
 
                 </div>
 
             </div>
 
         </div>
-
     `)
     .join("");
-
-}
 
 
 // =========================================================
