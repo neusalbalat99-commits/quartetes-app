@@ -32,31 +32,47 @@ async function cargarDatos() {
 
         console.log("✅ OK:", datos.length);
 
-        function omplirTemes() {
+       function omplirTemes() {
 
     const temes = [...new Set(
         datos
             .map(d => (d.tema || "").trim())
-            .filter(Boolean)
-    )].sort();
+            .filter(t => t !== "")
+    )].sort((a, b) => a.localeCompare(b));
 
 
     // FILTRE DEL LLISTAT
-    const filtro = document.getElementById("filtroTema");
+    const filtroTema = document.getElementById("filtroTema");
 
-    if (filtro) {
+    if (filtroTema) {
 
-        const valorActual = filtro.value;
+        const temaSeleccionat = filtroTema.value;
 
-        filtro.innerHTML =
-            `<option value="">Tots els temes</option>` +
-            temes
-                .map(t => `<option value="${t}">${t}</option>`)
-                .join("");
+        filtroTema.innerHTML =
+            `<option value="">Tema</option>` +
+            temes.map(tema =>
+                `<option value="${tema}">${tema}</option>`
+            ).join("");
 
-        filtro.value = valorActual;
+        if (temes.includes(temaSeleccionat)) {
+            filtroTema.value = temaSeleccionat;
+        }
     }
 
+
+    // SELECTOR DEL FORMULARI
+    const nouTema = document.getElementById("nouTema");
+
+    if (nouTema) {
+
+        nouTema.innerHTML =
+            `<option value="">Tria un tema</option>` +
+            temes.map(tema =>
+                `<option value="${tema}">${tema}</option>`
+            ).join("") +
+            `<option value="__altre__">➕ Altre tema</option>`;
+    }
+}
 
     // TEMA DEL FORMULARI
     const nouTema = document.getElementById("nouTema");
