@@ -23,26 +23,68 @@
 
 <div id="llistat" class="view">
 
-    <input
-        type="text"
-        id="busqueda"
-        placeholder="Buscar..."
-        onkeyup="actualitzarLlista()"
-    />
+    <div class="barra-eines">
 
-    <select id="filtroTema" onchange="actualitzarLlista()">
-        <option value="">Tots els temes</option>
-    </select>
+        <div class="cerca">
+            <span class="icona-cerca">⌕</span>
 
-    <!-- BOTÓ AFEGIR QUARTETA -->
-    <button onclick="mostrarFormulari()">
-        ➕ Afegir quarteta
-    </button>
+            <input
+                type="text"
+                id="busqueda"
+                placeholder="Buscar quartetes..."
+                onkeyup="actualitzarLlista()"
+            />
+        </div>
+
+
+        <div class="fila-filtres">
+
+            <div class="selector-tema">
+
+                <select
+                    id="filtroTema"
+                    onchange="actualitzarLlista()"
+                >
+                    <option value="">Tots els temes</option>
+                </select>
+
+            </div>
+
+
+            <button
+                class="boto-afegir"
+                onclick="mostrarFormulari()"
+                title="Afegir quarteta"
+            >
+                ＋
+            </button>
+
+        </div>
+
+    </div>
+
 
     <!-- FORMULARI NOVA QUARTETA -->
-    <div id="formulariQuarteta" style="display:none;">
 
-        <h2>Nova quarteta</h2>
+    <div
+        id="formulariQuarteta"
+        class="formulari-quarteta"
+        style="display:none;"
+    >
+
+        <div class="cap-formulari">
+
+            <h2>Nova quarteta</h2>
+
+            <button
+                class="tancar-formulari"
+                onclick="tancarFormulari()"
+            >
+                ×
+            </button>
+
+        </div>
+
 
         <textarea
             id="novaQuarteta"
@@ -50,11 +92,22 @@
             rows="6"
         ></textarea>
 
+
+        <select
+            id="nouTema"
+            onchange="canviarTemaNou()"
+        >
+            <option value="">Tria un tema</option>
+        </select>
+
+
         <input
             type="text"
-            id="nouTema"
-            placeholder="Tema"
+            id="altreTema"
+            placeholder="Escriu el nou tema"
+            style="display:none;"
         />
+
 
         <input
             type="text"
@@ -62,29 +115,59 @@
             placeholder="Subtema"
         />
 
-        <button onclick="guardarQuarteta()">
-            💾 Guardar
-        </button>
 
-        <button onclick="tancarFormulari()">
-            Cancel·lar
-        </button>
+        <div class="botons-formulari">
+
+            <button
+                class="boto-guardar"
+                onclick="guardarQuarteta()"
+            >
+                Guardar
+            </button>
+
+            <button
+                class="boto-cancelar"
+                onclick="tancarFormulari()"
+            >
+                Cancel·lar
+            </button>
+
+        </div>
 
     </div>
+
 
     <div id="lista" class="grid"></div>
 
 </div>
 
-    <div id="favorits" class="view">
-        <h2 class="empty">Encara no tens favorits</h2>
+<div id="calendari" class="view">
+
+    <div class="cap-calendari">
+        <h2>Calendari</h2>
+        <p>Activitats, trobades i dates destacades.</p>
     </div>
+
+    <div class="contenidor-calendari">
+
+        <!-- ACÍ POSAREM EL GOOGLE CALENDAR -->
+
+        <iframe
+            class="google-calendar"
+            src="URL_DEL_TEU_GOOGLE_CALENDAR"
+            frameborder="0"
+            scrolling="no"
+        ></iframe>
+
+    </div>
+
+</div>
 
     <!-- 🔻 MENU INFERIOR -->
     <div class="bottom-nav">
         <button onclick="canviarVista('home')">🎲</button>
         <button onclick="canviarVista('llistat')">📚</button>
-        <button onclick="canviarVista('favorits')">⭐</button>
+        <button onclick="canviarVista('calendari')">📅</button>
     </div>
 
     <script src="app.js?v=2"></script>
