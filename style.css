@@ -30,14 +30,12 @@
 
 body {
     margin: 0;
+    padding-bottom: 82px;
 
     font-family: Arial, sans-serif;
 
     color: var(--text);
-
     background: var(--background);
-
-    padding-bottom: 80px;
 }
 
 
@@ -46,17 +44,15 @@ body {
 ========================================================= */
 
 .title {
+    margin: 15px 0;
+
     text-align: center;
 
     font-size: 22px;
-
-    letter-spacing: 3px;
-
-    text-transform: uppercase;
-
     font-weight: 800;
 
-    margin: 15px 0;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 
     color: var(--primary);
 }
@@ -70,21 +66,19 @@ button {
     padding: 10px 14px;
 
     border: none;
-
-    background: var(--primary);
-
-    color: white;
-
     border-radius: var(--radius-small);
 
-    cursor: pointer;
+    background: var(--primary);
+    color: white;
 
     font-family: inherit;
 
+    cursor: pointer;
+
     transition:
         transform 0.15s ease,
-        box-shadow 0.15s ease,
-        background 0.15s ease;
+        background 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 button:active {
@@ -99,11 +93,11 @@ button:active {
 .view {
     display: none;
 
-    padding: 15px;
-
+    width: 100%;
     max-width: 900px;
 
     margin: 0 auto;
+    padding: 15px;
 }
 
 .view.active {
@@ -116,16 +110,15 @@ button:active {
 ========================================================= */
 
 .card {
-    background: var(--surface);
-
     padding: 20px;
+
+    background: var(--surface);
 
     border-radius: var(--radius-large);
 
     box-shadow: var(--shadow-card);
 
     line-height: 1.6;
-
     white-space: pre-line;
 
     font-size: 18px;
@@ -138,14 +131,13 @@ button:active {
 
 .grid {
     display: grid;
-
     gap: 10px;
 }
 
 .item {
-    background: var(--surface);
-
     padding: 12px;
+
+    background: var(--surface);
 
     border-radius: 12px;
 
@@ -166,32 +158,29 @@ button:active {
 ========================================================= */
 
 .tema {
+    margin-bottom: 3px;
+
     font-size: 11px;
+    font-weight: 600;
 
     letter-spacing: 2px;
-
     text-transform: uppercase;
 
     color: var(--text-soft);
-
-    font-weight: 600;
-
-    margin-bottom: 3px;
 }
 
 .subtema {
+    margin-bottom: 6px;
+
     font-size: 10px;
-
-    color: var(--text-light);
-
     font-style: italic;
 
-    margin-bottom: 6px;
+    color: var(--text-light);
 }
 
 
 /* =========================================================
-   INPUTS GENERALS
+   ELEMENTS DE FORMULARI
 ========================================================= */
 
 input,
@@ -200,25 +189,19 @@ select {
     font-family: inherit;
 }
 
-input {
-    width: 100%;
-
-    padding: 10px;
-
-    border-radius: 12px;
-
-    border: 1px solid var(--border);
-
-    outline: none;
-}
-
 
 /* =========================================================
-   BARRA DE CERCA I FILTRES
+   CERCA + FILTRE
 ========================================================= */
 
 .barra-eines {
-    margin-bottom: 22px;
+    margin-bottom: 16px;
+}
+
+.fila-cerca {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 
@@ -227,58 +210,66 @@ input {
 .cerca {
     position: relative;
 
+    flex: 1;
+    min-width: 0;
+
+    height: 46px;
+
     display: flex;
     align-items: center;
 
     background: var(--surface);
 
     border: 1px solid var(--border);
-
     border-radius: var(--radius-medium);
-
-    margin-bottom: 10px;
 
     box-shadow: var(--shadow-soft);
 }
 
 .cerca input {
+    width: 100%;
+    height: 44px;
+
+    margin: 0;
+
+    padding: 0 42px 0 14px;
+
+    border: none;
+    outline: none;
+
+    border-radius: var(--radius-medium);
+
+    background: transparent;
+
     font-size: 16px;
-    padding: 13px 46px 13px 14px;
 }
 
 .icona-cerca {
     position: absolute;
 
-    right: 15px;
+    right: 14px;
     top: 50%;
 
     transform: translateY(-50%);
 
-    font-size: 22px;
-
     color: var(--text-light);
+
+    font-size: 22px;
 
     pointer-events: none;
 }
 
 
-/* FILTRE + BOTÓ AFEGIR */
-
-.fila-filtres {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-}
-
-
-/* SELECTOR TEMA */
+/* FILTRE TEMA */
 
 .selector-tema {
     position: relative;
+}
 
-    flex: 1;
+.selector-tema-compacte {
+    flex: none;
+
+    width: 105px;
 }
 
 .selector-tema select {
@@ -287,23 +278,26 @@ input {
     appearance: none;
     -webkit-appearance: none;
 
-    background: var(--surface);
-
     border: 1px solid var(--border);
-
     border-radius: var(--radius-medium);
 
-    padding: 13px 44px 13px 14px;
+    outline: none;
 
-    font-size: 15px;
+    background: var(--surface);
 
     color: var(--text);
-
-    outline: none;
 
     cursor: pointer;
 
     box-shadow: var(--shadow-soft);
+}
+
+.selector-tema-compacte select {
+    height: 46px;
+
+    padding: 0 30px 0 12px;
+
+    font-size: 14px;
 }
 
 .selector-tema::after {
@@ -311,17 +305,55 @@ input {
 
     position: absolute;
 
-    right: 16px;
-
+    right: 10px;
     top: 50%;
 
     transform: translateY(-55%);
 
-    font-size: 20px;
-
     color: var(--text-soft);
 
+    font-size: 17px;
+
     pointer-events: none;
+}
+
+
+/* =========================================================
+   BOTÓ FLOTANT AFEGIR
+========================================================= */
+
+.boto-afegir-flotant {
+    position: fixed;
+
+    right: 18px;
+    bottom: 82px;
+
+    width: 56px;
+    height: 56px;
+
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 34px;
+    font-weight: 300;
+
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
+
+    z-index: 90;
+}
+
+.boto-afegir-flotant:active {
+    transform: scale(0.92);
 }
 
 
@@ -330,26 +362,20 @@ input {
 ========================================================= */
 
 .formulari-quarteta {
+    padding: 18px;
+    margin-bottom: 22px;
+
     background: var(--surface);
 
     border-radius: var(--radius-large);
 
-    padding: 18px;
-
-    margin-bottom: 22px;
-
     box-shadow: var(--shadow-card);
 }
 
-
-/* CAPÇALERA FORMULARI */
-
 .cap-formulari {
     display: flex;
-
-    justify-content: space-between;
-
     align-items: center;
+    justify-content: space-between;
 
     margin-bottom: 16px;
 }
@@ -360,54 +386,42 @@ input {
     font-size: 20px;
 }
 
-
-/* BOTÓ X */
-
 .tancar-formulari {
+    padding: 4px 8px;
+
     background: transparent;
 
     color: var(--text-soft);
 
-    padding: 4px 8px;
+    border-radius: 50%;
 
     font-size: 27px;
-
-    border-radius: 50%;
 }
-
-.tancar-formulari:hover {
-    background: #f1f1f1;
-}
-
-
-/* CAMPS FORMULARI */
 
 .formulari-quarteta textarea,
 .formulari-quarteta input,
 .formulari-quarteta select {
     width: 100%;
 
-    border: 1px solid var(--border);
+    margin-bottom: 11px;
+    padding: 13px;
 
+    border: 1px solid var(--border);
     border-radius: 12px;
+
+    outline: none;
 
     background: #fafafa;
 
-    padding: 13px;
-
-    margin-bottom: 11px;
-
-    font-size: 16px;
-
     color: var(--text);
 
-    outline: none;
+    font-size: 16px;
 }
 
 .formulari-quarteta textarea {
-    resize: vertical;
-
     min-height: 130px;
+
+    resize: vertical;
 
     line-height: 1.5;
 }
@@ -422,12 +436,8 @@ input {
     box-shadow: 0 0 0 2px rgba(168, 212, 140, 0.16);
 }
 
-
-/* BOTONS FORMULARI */
-
 .botons-formulari {
     display: flex;
-
     gap: 10px;
 
     margin-top: 4px;
@@ -445,12 +455,6 @@ input {
 
 .boto-guardar {
     background: var(--primary);
-
-    color: white;
-}
-
-.boto-guardar:hover {
-    background: var(--primary-dark);
 }
 
 .boto-cancelar {
@@ -470,22 +474,17 @@ input {
     display: block;
 
     margin: 10px auto 15px auto;
+    padding: 10px 16px;
 
     background: var(--primary);
 
-    color: white;
-
-    padding: 10px 16px;
-
     border-radius: 12px;
+
+    color: white;
 
     font-size: 14px;
 
     box-shadow: var(--shadow-soft);
-}
-
-.random-btn:hover {
-    background: var(--primary-dark);
 }
 
 
@@ -509,18 +508,17 @@ input {
     color: var(--text-soft);
 
     font-size: 14px;
-
     line-height: 1.4;
 }
 
 .contenidor-calendari {
     width: 100%;
 
+    overflow: hidden;
+
     background: var(--surface);
 
     border-radius: var(--radius-large);
-
-    overflow: hidden;
 
     box-shadow: var(--shadow-card);
 }
@@ -529,7 +527,6 @@ input {
     display: block;
 
     width: 100%;
-
     height: 620px;
 
     border: none;
@@ -543,21 +540,17 @@ input {
 .bottom-nav {
     position: fixed;
 
+    left: 0;
+    right: 0;
     bottom: 0;
 
-    left: 0;
-
-    right: 0;
-
-    height: 60px;
-
-    background: var(--surface);
+    height: 65px;
 
     display: flex;
-
+    align-items: center;
     justify-content: space-around;
 
-    align-items: center;
+    background: var(--surface);
 
     border-top: 1px solid var(--border);
 
@@ -567,17 +560,15 @@ input {
 }
 
 .bottom-nav button {
-    background: none;
+    padding: 10px 18px;
 
     border: none;
+
+    background: none;
 
     color: var(--text);
 
     font-size: 22px;
-
-    cursor: pointer;
-
-    padding: 10px 18px;
 }
 
 .bottom-nav button:active {
@@ -593,110 +584,53 @@ input {
 
     body {
         padding: 10px;
-
         padding-bottom: 85px;
     }
 
-
-    /* TÍTOL */
-
     .title {
+        margin: 10px 0;
+
         font-size: 18px;
 
         letter-spacing: 2px;
-
-        margin: 10px 0;
     }
-
-
-    /* VISTES */
 
     .view {
         padding: 10px 5px;
     }
 
-
-    /* CARD PRINCIPAL */
-
     .card {
-        font-size: 16px;
-
         padding: 15px;
 
         border-radius: 14px;
+
+        font-size: 16px;
     }
-
-
-    /* LLISTA */
 
     .grid {
         grid-template-columns: 1fr;
     }
 
     .item {
-        font-size: 14px;
-
         padding: 12px;
+
+        font-size: 14px;
     }
 
-
-    /* BUSCADOR */
-
-    .cerca input {
-        font-size: 16px;
-
-        padding: 13px 0;
+    .selector-tema-compacte {
+        width: 102px;
     }
 
-
-    /* FILTRE */
-
-    .selector-tema select {
-        font-size: 16px;
-
-        min-height: 48px;
+    .selector-tema-compacte select {
+        font-size: 14px;
     }
-
-
-    /* BOTÓ + */
-
-    .boto-afegir {
-        width: 48px;
-
-        height: 48px;
-
-        min-width: 48px;
-    }
-
-
-    /* FORMULARI */
 
     .formulari-quarteta {
         padding: 15px;
     }
 
-    .formulari-quarteta textarea,
-    .formulari-quarteta input,
-    .formulari-quarteta select {
-        font-size: 16px;
-    }
-
-
-    /* CALENDARI */
-
     .google-calendar {
         height: 560px;
-    }
-
-
-    /* MENÚ INFERIOR */
-
-    .bottom-nav {
-        height: 65px;
-    }
-
-    .bottom-nav button {
-        font-size: 22px;
     }
 }
 
@@ -707,16 +641,19 @@ input {
 
 @media (max-width: 420px) {
 
-    .fila-filtres {
-        gap: 8px;
+    .fila-cerca {
+        gap: 7px;
     }
 
-    .selector-tema select {
-        padding-left: 12px;
+    .selector-tema-compacte {
+        width: 96px;
+    }
 
-        padding-right: 38px;
+    .selector-tema-compacte select {
+        padding-left: 10px;
+        padding-right: 28px;
 
-        font-size: 15px;
+        font-size: 13px;
     }
 
     .botons-formulari {
@@ -726,125 +663,4 @@ input {
     .google-calendar {
         height: 520px;
     }
-}
-
-/* =========================================================
-   BOTÓ FLOTANT AFEGIR QUARTETA
-========================================================= */
-
-.boto-afegir-flotant {
-
-    position: fixed;
-
-    right: 20px;
-
-    bottom: 85px;
-
-    width: 56px;
-
-    height: 56px;
-
-    padding: 0;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: var(--primary);
-
-    color: white;
-
-    font-size: 34px;
-
-    font-weight: 300;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
-
-    z-index: 90;
-}
-
-.boto-afegir-flotant:active {
-    transform: scale(0.92);
-}
-
-/* =========================================================
-   CERCA + FILTRE COMPACTE
-========================================================= */
-
-.fila-cerca {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-
-/* BUSCADOR */
-
-.fila-cerca .cerca {
-    flex: 1;
-
-    min-width: 0;
-
-    margin-bottom: 0;
-
-    height: 46px;
-}
-
-
-.fila-cerca .cerca input {
-    height: 44px;
-
-    padding:
-        0
-        42px
-        0
-        14px;
-}
-
-
-/* FILTRE COMPACTE */
-
-.selector-tema-compacte {
-    flex: none;
-
-    width: 105px;
-}
-
-
-.selector-tema-compacte select {
-    height: 46px;
-
-    padding:
-        0
-        30px
-        0
-        12px;
-
-    border-radius: 14px;
-
-    font-size: 14px;
-
-    background: white;
-
-    box-shadow: var(--shadow-soft);
-}
-
-
-.selector-tema-compacte::after {
-    right: 10px;
-
-    font-size: 17px;
-}
-
-
-/* ESPAI DESPRÉS DE LA BARRA */
-
-.barra-eines {
-    margin-bottom: 16px;
 }
