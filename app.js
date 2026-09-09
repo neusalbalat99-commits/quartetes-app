@@ -139,21 +139,12 @@ window.addEventListener("DOMContentLoaded", async () => {
 // ----------------------
 
 function mostrarFormulari() {
-
     document.getElementById("formulariQuarteta").style.display = "block";
-
 }
 
 function tancarFormulari() {
-
     document.getElementById("formulariQuarteta").style.display = "none";
-
 }
-
-
-// ----------------------
-// GUARDAR NOVA QUARTETA
-// ----------------------
 
 async function guardarQuarteta() {
 
@@ -161,7 +152,6 @@ async function guardarQuarteta() {
     const tema = document.getElementById("nouTema").value.trim();
     const subtema = document.getElementById("nouSubtema").value.trim();
 
-    // Comprovar que hi ha quarteta
     if (!quarteta) {
         alert("Has d'escriure una quarteta.");
         return;
@@ -176,12 +166,8 @@ async function guardarQuarteta() {
             "&tema=" + encodeURIComponent(tema) +
             "&subtema=" + encodeURIComponent(subtema);
 
-        console.log("💾 Guardant quarteta...");
-
         const res = await fetch(url);
         const data = await res.json();
-
-        console.log("📦 Resposta:", data);
 
         if (!data.ok) {
             throw new Error(data.error || "No s'ha pogut guardar");
@@ -189,15 +175,12 @@ async function guardarQuarteta() {
 
         alert("✅ Quarteta guardada correctament");
 
-        // Netejar formulari
         document.getElementById("novaQuarteta").value = "";
         document.getElementById("nouTema").value = "";
         document.getElementById("nouSubtema").value = "";
 
-        // Tancar formulari
         tancarFormulari();
 
-        // Tornar a carregar les dades
         await cargarDatos();
 
     } catch (err) {
@@ -205,6 +188,5 @@ async function guardarQuarteta() {
         console.error("❌ Error guardant:", err);
 
         alert("❌ No s'ha pogut guardar la quarteta.");
-
     }
 }
