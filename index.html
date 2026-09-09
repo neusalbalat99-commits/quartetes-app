@@ -23,49 +23,39 @@
 
 <div id="llistat" class="view">
 
-    <div class="barra-eines">
+    <!-- ZONA DE LLISTAT -->
+    <div id="zonaLlistat">
 
-        <div class="cerca">
-            <span class="icona-cerca">⌕</span>
+        <div class="barra-eines">
 
-            <input
-                type="text"
-                id="busqueda"
-                placeholder="Buscar quartetes..."
-                onkeyup="actualitzarLlista()"
-            />
-        </div>
+            <div class="cerca">
+                <input
+                    type="text"
+                    id="busqueda"
+                    placeholder="Buscar quartetes..."
+                    onkeyup="actualitzarLlista()"
+                />
 
-
-        <div class="fila-filtres">
+                <span class="icona-cerca">⌕</span>
+            </div>
 
             <div class="selector-tema">
-
                 <select
                     id="filtroTema"
                     onchange="actualitzarLlista()"
                 >
                     <option value="">Tots els temes</option>
                 </select>
-
             </div>
 
-
-            <button
-                class="boto-afegir"
-                onclick="mostrarFormulari()"
-                title="Afegir quarteta"
-            >
-                ＋
-            </button>
-
         </div>
+
+        <div id="lista" class="grid"></div>
 
     </div>
 
 
     <!-- FORMULARI NOVA QUARTETA -->
-
     <div
         id="formulariQuarteta"
         class="formulari-quarteta"
@@ -137,7 +127,15 @@
     </div>
 
 
-    <div id="lista" class="grid"></div>
+    <!-- BOTÓ FLOTANT -->
+    <button
+        id="botoAfegirQuarteta"
+        class="boto-afegir-flotant"
+        onclick="mostrarFormulari()"
+        title="Afegir quarteta"
+    >
+        ＋
+    </button>
 
 </div>
 
