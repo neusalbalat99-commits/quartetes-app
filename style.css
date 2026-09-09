@@ -146,35 +146,23 @@ button:active {
 .item {
     position: relative;
 
-    padding: 10px 12px;
+    padding: 12px;
 
     background: var(--surface);
 
     border-radius: 12px;
 
-    box-shadow:
-        0 3px 10px
-        rgba(0, 0, 0, 0.08);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 
     white-space: pre-line;
 
-    font-size: 14px;
-
-    line-height: 1.4;
-
-    transition:
-        transform 0.2s ease;
+    transition: transform 0.2s ease;
 }
-
 
 .item:hover {
     transform: scale(1.01);
 }
 
-
-.item p {
-    margin: 6px 0 0 0;
-}
 
 
 /* TEMA */
