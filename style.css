@@ -242,18 +242,8 @@ input {
 }
 
 .cerca input {
-    width: 100%;
-
-    border: none;
-    outline: none;
-
-    background: transparent;
-
-    padding: 14px 46px 14px 14px;
-
-    margin: 0;
-
     font-size: 16px;
+    padding: 13px 46px 13px 14px;
 }
 
 .icona-cerca {
