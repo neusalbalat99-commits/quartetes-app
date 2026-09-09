@@ -108,29 +108,31 @@ button:active {
     display: block;
 }
 
-
-/* 🔥 CARD PRINCIPAL */
+/* =========================================================
+   QUARTETA ALEATÒRIA
+========================================================= */
 
 .card {
     background: white;
 
-    padding: 20px;
+    padding: 14px 16px;
 
-    border-radius: 16px;
+    border-radius: 14px;
 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.09);
 
-    font-size: 18px;
+    font-size: 16px;
 }
 
 
 .card p {
-    margin: 6px 0 0 0;
+    margin: 5px 0 0 0;
 
-    line-height: 1.6;
+    line-height: 1.4;
 
     white-space: pre-line;
 }
+
 
 /* =========================================================
    LLISTAT
@@ -800,15 +802,6 @@ select {
     }
 
 
-    .card {
-        padding: 15px;
-
-        border-radius: 14px;
-
-        font-size: 16px;
-    }
-
-
     .grid {
         grid-template-columns: 1fr;
 
@@ -818,9 +811,10 @@ select {
 
     .item {
         padding: 9px 11px;
-    
+
         font-size: 14px;
     }
+
 
     .selector-tema-compacte {
         width: 102px;
@@ -842,7 +836,6 @@ select {
     }
 
 }
-
 
 /* =========================================================
    MÒBILS MENUTS
