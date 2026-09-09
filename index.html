@@ -10,7 +10,47 @@
 <body>
 
     <h1 class="title">QUARTETES POPULARS</h1>
+function omplirTemes() {
 
+    const temes = [...new Set(
+        datos
+            .map(d => (d.tema || "").trim())
+            .filter(t => t !== "")
+    )].sort((a, b) => a.localeCompare(b));
+
+
+    // FILTRE DEL LLISTAT
+    const filtroTema = document.getElementById("filtroTema");
+
+    if (filtroTema) {
+
+        const temaSeleccionat = filtroTema.value;
+
+        filtroTema.innerHTML =
+            `<option value="">Tema</option>` +
+            temes.map(tema =>
+                `<option value="${tema}">${tema}</option>`
+            ).join("");
+
+        if (temes.includes(temaSeleccionat)) {
+            filtroTema.value = temaSeleccionat;
+        }
+    }
+
+
+    // SELECTOR DEL FORMULARI
+    const nouTema = document.getElementById("nouTema");
+
+    if (nouTema) {
+
+        nouTema.innerHTML =
+            `<option value="">Tria un tema</option>` +
+            temes.map(tema =>
+                `<option value="${tema}">${tema}</option>`
+            ).join("") +
+            `<option value="__altre__">➕ Altre tema</option>`;
+    }
+}
     <!-- 🔥 VISTES -->
     <div id="home" class="view active">
          <button class="random-btn" onclick="mostrarAleatoria()">
@@ -28,31 +68,36 @@
 
         <div class="barra-eines">
 
-            <div class="cerca">
-                <input
-                    type="text"
-                    id="busqueda"
-                    placeholder="Buscar quartetes..."
-                    onkeyup="actualitzarLlista()"
-                />
+           <div class="fila-cerca">
 
-                <span class="icona-cerca">⌕</span>
-            </div>
+    <div class="cerca">
 
-            <div class="selector-tema">
-                <select
-                    id="filtroTema"
-                    onchange="actualitzarLlista()"
-                >
-                    <option value="">Tots els temes</option>
-                </select>
-            </div>
+        <input
+            type="text"
+            id="busqueda"
+            placeholder=""
+            aria-label="Buscar quartetes"
+            onkeyup="actualitzarLlista()"
+        />
 
-        </div>
-
-        <div id="lista" class="grid"></div>
+        <span class="icona-cerca">⌕</span>
 
     </div>
+
+
+    <div class="selector-tema selector-tema-compacte">
+
+        <select
+            id="filtroTema"
+            onchange="actualitzarLlista()"
+            aria-label="Filtrar per tema"
+        >
+            <option value="">Tema</option>
+        </select>
+
+    </div>
+
+</div>
 
 
     <!-- FORMULARI NOVA QUARTETA -->
