@@ -32,7 +32,45 @@ async function cargarDatos() {
 
         console.log("✅ OK:", datos.length);
 
-        omplirTemes();
+        function omplirTemes() {
+
+    const temes = [...new Set(
+        datos
+            .map(d => (d.tema || "").trim())
+            .filter(Boolean)
+    )].sort();
+
+
+    // FILTRE DEL LLISTAT
+    const filtro = document.getElementById("filtroTema");
+
+    if (filtro) {
+
+        const valorActual = filtro.value;
+
+        filtro.innerHTML =
+            `<option value="">Tots els temes</option>` +
+            temes
+                .map(t => `<option value="${t}">${t}</option>`)
+                .join("");
+
+        filtro.value = valorActual;
+    }
+
+
+    // TEMA DEL FORMULARI
+    const nouTema = document.getElementById("nouTema");
+
+    if (nouTema) {
+
+        nouTema.innerHTML =
+            `<option value="">Tria un tema</option>` +
+            temes
+                .map(t => `<option value="${t}">${t}</option>`)
+                .join("") +
+            `<option value="__altre__">➕ Altre tema</option>`;
+    }
+}
         actualitzarLlista();
 
     } catch (err) {
@@ -161,16 +199,55 @@ function tancarFormulari() {
     document.getElementById("botoAfegirQuarteta").style.display = "flex";
 }
 
+function canviarTemaNou() {
+
+    const select = document.getElementById("nouTema");
+    const altre = document.getElementById("altreTema");
+
+    if (select.value === "__altre__") {
+
+        altre.style.display = "block";
+        altre.focus();
+
+    } else {
+
+        altre.style.display = "none";
+        altre.value = "";
+    }
+}
+
 async function guardarQuarteta() {
 
-    const quarteta = document.getElementById("novaQuarteta").value.trim();
-    const tema = document.getElementById("nouTema").value.trim();
-    const subtema = document.getElementById("nouSubtema").value.trim();
+    const quarteta =
+        document.getElementById("novaQuarteta").value.trim();
+
+    const selectorTema =
+        document.getElementById("nouTema").value;
+
+    const altreTema =
+        document.getElementById("altreTema").value.trim();
+
+    const subtema =
+        document.getElementById("nouSubtema").value.trim();
+
+
+    let tema = selectorTema;
+
+    if (selectorTema === "__altre__") {
+        tema = altreTema;
+    }
+
 
     if (!quarteta) {
         alert("Has d'escriure una quarteta.");
         return;
     }
+
+    if (!tema) {
+        alert("Has de triar un tema.");
+        return;
+    }
+
 
     try {
 
@@ -184,19 +261,28 @@ async function guardarQuarteta() {
         const res = await fetch(url);
         const data = await res.json();
 
+
         if (!data.ok) {
-            throw new Error(data.error || "No s'ha pogut guardar");
+            throw new Error(
+                data.error || "No s'ha pogut guardar"
+            );
         }
+
 
         alert("✅ Quarteta guardada correctament");
 
+
         document.getElementById("novaQuarteta").value = "";
         document.getElementById("nouTema").value = "";
+        document.getElementById("altreTema").value = "";
+        document.getElementById("altreTema").style.display = "none";
         document.getElementById("nouSubtema").value = "";
+
 
         tancarFormulari();
 
         await cargarDatos();
+
 
     } catch (err) {
 
