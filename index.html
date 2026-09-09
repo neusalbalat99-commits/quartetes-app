@@ -1,219 +1,274 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Quartetes</title>
-    <link rel="stylesheet" href="style.css?v=3">
+
+    <link
+        rel="stylesheet"
+        href="style.css?v=6"
+    >
+
 </head>
+
 
 <body>
 
-    <h1 class="title">QUARTETES POPULARS</h1>
-function omplirTemes() {
 
-    const temes = [...new Set(
-        datos
-            .map(d => (d.tema || "").trim())
-            .filter(t => t !== "")
-    )].sort((a, b) => a.localeCompare(b));
+    <h1 class="title">
+        QUARTETES POPULARS
+    </h1>
 
 
-    // FILTRE DEL LLISTAT
-    const filtroTema = document.getElementById("filtroTema");
+    <!-- =====================================================
+         INICI
+    ====================================================== -->
 
-    if (filtroTema) {
-
-        const temaSeleccionat = filtroTema.value;
-
-        filtroTema.innerHTML =
-            `<option value="">Tema</option>` +
-            temes.map(tema =>
-                `<option value="${tema}">${tema}</option>`
-            ).join("");
-
-        if (temes.includes(temaSeleccionat)) {
-            filtroTema.value = temaSeleccionat;
-        }
-    }
-
-
-    // SELECTOR DEL FORMULARI
-    const nouTema = document.getElementById("nouTema");
-
-    if (nouTema) {
-
-        nouTema.innerHTML =
-            `<option value="">Tria un tema</option>` +
-            temes.map(tema =>
-                `<option value="${tema}">${tema}</option>`
-            ).join("") +
-            `<option value="__altre__">➕ Altre tema</option>`;
-    }
-}
-    <!-- 🔥 VISTES -->
     <div id="home" class="view active">
-         <button class="random-btn" onclick="mostrarAleatoria()">
-                    🎲 Nova quarteta
+
+        <button
+            class="random-btn"
+            onclick="mostrarAleatoria()"
+        >
+            🎲 Nova quarteta
         </button>
 
-        <div id="resultado" class="card"></div>
-    </div>
-
-
-<div id="llistat" class="view">
-
-    <!-- ZONA DE LLISTAT -->
-    <div id="zonaLlistat">
-
-        <div class="barra-eines">
-
-           <div class="fila-cerca">
-
-    <div class="cerca">
-
-        <input
-            type="text"
-            id="busqueda"
-            placeholder=""
-            aria-label="Buscar quartetes"
-            onkeyup="actualitzarLlista()"
-        />
-
-        <span class="icona-cerca">⌕</span>
+        <div
+            id="resultado"
+            class="card"
+        ></div>
 
     </div>
 
 
-    <div class="selector-tema selector-tema-compacte">
+    <!-- =====================================================
+         LLISTAT
+    ====================================================== -->
 
-        <select
-            id="filtroTema"
-            onchange="actualitzarLlista()"
-            aria-label="Filtrar per tema"
-        >
-            <option value="">Tema</option>
-        </select>
-
-    </div>
-
-</div>
+    <div id="llistat" class="view">
 
 
-    <!-- FORMULARI NOVA QUARTETA -->
-    <div
-        id="formulariQuarteta"
-        class="formulari-quarteta"
-        style="display:none;"
-    >
+        <!-- ZONA DE LLISTAT -->
 
-        <div class="cap-formulari">
+        <div id="zonaLlistat">
 
-            <h2>Nova quarteta</h2>
+            <div class="barra-eines">
 
-            <button
-                class="tancar-formulari"
-                onclick="tancarFormulari()"
-            >
-                ×
-            </button>
+                <div class="fila-cerca">
+
+                    <div class="cerca">
+
+                        <input
+                            type="text"
+                            id="busqueda"
+                            placeholder=""
+                            aria-label="Buscar quartetes"
+                            onkeyup="actualitzarLlista()"
+                        >
+
+                        <span class="icona-cerca">
+                            ⌕
+                        </span>
+
+                    </div>
+
+
+                    <div class="selector-tema selector-tema-compacte">
+
+                        <select
+                            id="filtroTema"
+                            onchange="actualitzarLlista()"
+                            aria-label="Filtrar per tema"
+                        >
+                            <option value="">
+                                Tema
+                            </option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="lista"
+                class="grid"
+            ></div>
 
         </div>
 
 
-        <textarea
-            id="novaQuarteta"
-            placeholder="Escriu ací la quarteta..."
-            rows="6"
-        ></textarea>
+        <!-- FORMULARI NOVA QUARTETA -->
 
-
-        <select
-            id="nouTema"
-            onchange="canviarTemaNou()"
-        >
-            <option value="">Tria un tema</option>
-        </select>
-
-
-        <input
-            type="text"
-            id="altreTema"
-            placeholder="Escriu el nou tema"
+        <div
+            id="formulariQuarteta"
+            class="formulari-quarteta"
             style="display:none;"
-        />
+        >
+
+            <div class="cap-formulari">
+
+                <h2>
+                    Nova quarteta
+                </h2>
+
+                <button
+                    class="tancar-formulari"
+                    onclick="tancarFormulari()"
+                    aria-label="Tancar formulari"
+                >
+                    ×
+                </button>
+
+            </div>
 
 
-        <input
-            type="text"
-            id="nouSubtema"
-            placeholder="Subtema"
-        />
+            <textarea
+                id="novaQuarteta"
+                placeholder="Escriu ací la quarteta..."
+                rows="6"
+            ></textarea>
 
 
-        <div class="botons-formulari">
-
-            <button
-                class="boto-guardar"
-                onclick="guardarQuarteta()"
+            <select
+                id="nouTema"
+                onchange="canviarTemaNou()"
             >
-                Guardar
-            </button>
+                <option value="">
+                    Tria un tema
+                </option>
+            </select>
 
-            <button
-                class="boto-cancelar"
-                onclick="tancarFormulari()"
+
+            <input
+                type="text"
+                id="altreTema"
+                placeholder="Escriu el nou tema"
+                style="display:none;"
             >
-                Cancel·lar
-            </button>
+
+
+            <input
+                type="text"
+                id="nouSubtema"
+                placeholder="Subtema"
+            >
+
+
+            <div class="botons-formulari">
+
+                <button
+                    class="boto-guardar"
+                    onclick="guardarQuarteta()"
+                >
+                    Guardar
+                </button>
+
+                <button
+                    class="boto-cancelar"
+                    onclick="tancarFormulari()"
+                >
+                    Cancel·lar
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- BOTÓ FLOTANT -->
+
+        <button
+            id="botoAfegirQuarteta"
+            class="boto-afegir-flotant"
+            onclick="mostrarFormulari()"
+            title="Afegir quarteta"
+            aria-label="Afegir quarteta"
+        >
+            ＋
+        </button>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         CALENDARI
+    ====================================================== -->
+
+    <div id="calendari" class="view">
+
+        <div class="cap-calendari">
+
+            <h2>
+                Calendari
+            </h2>
+
+            <p>
+                Activitats, trobades i dates destacades.
+            </p>
+
+        </div>
+
+
+        <div class="contenidor-calendari">
+
+            <iframe
+                class="google-calendar"
+                src="URL_DEL_TEU_GOOGLE_CALENDAR"
+                frameborder="0"
+                scrolling="no"
+                title="Calendari"
+            ></iframe>
 
         </div>
 
     </div>
 
 
-    <!-- BOTÓ FLOTANT -->
-    <button
-        id="botoAfegirQuarteta"
-        class="boto-afegir-flotant"
-        onclick="mostrarFormulari()"
-        title="Afegir quarteta"
-    >
-        ＋
-    </button>
+    <!-- =====================================================
+         MENÚ INFERIOR
+    ====================================================== -->
 
-</div>
-
-<div id="calendari" class="view">
-
-    <div class="cap-calendari">
-        <h2>Calendari</h2>
-        <p>Activitats, trobades i dates destacades.</p>
-    </div>
-
-    <div class="contenidor-calendari">
-
-        <!-- ACÍ POSAREM EL GOOGLE CALENDAR -->
-
-        <iframe
-            class="google-calendar"
-            src="URL_DEL_TEU_GOOGLE_CALENDAR"
-            frameborder="0"
-            scrolling="no"
-        ></iframe>
-
-    </div>
-
-</div>
-
-    <!-- 🔻 MENU INFERIOR -->
     <div class="bottom-nav">
-        <button onclick="canviarVista('home')">🎲</button>
-        <button onclick="canviarVista('llistat')">📚</button>
-        <button onclick="canviarVista('calendari')">📅</button>
+
+        <button
+            onclick="canviarVista('home')"
+            aria-label="Inici"
+        >
+            🎲
+        </button>
+
+        <button
+            onclick="canviarVista('llistat')"
+            aria-label="Quartetes"
+        >
+            📚
+        </button>
+
+        <button
+            onclick="canviarVista('calendari')"
+            aria-label="Calendari"
+        >
+            📅
+        </button>
+
     </div>
 
-    <script src="app.js?v4"></script>
+
+    <script src="app.js?v=6"></script>
+
 
 </body>
+
 </html>
