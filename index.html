@@ -20,22 +20,61 @@
         <div id="resultado" class="card"></div>
     </div>
 
-   <div id="llistat" class="view">
 
-         <input
+<div id="llistat" class="view">
+
+    <input
+        type="text"
+        id="busqueda"
+        placeholder="Buscar..."
+        onkeyup="actualitzarLlista()"
+    />
+
+    <select id="filtroTema" onchange="actualitzarLlista()">
+        <option value="">Tots els temes</option>
+    </select>
+
+    <!-- BOTÓ AFEGIR QUARTETA -->
+    <button onclick="mostrarFormulari()">
+        ➕ Afegir quarteta
+    </button>
+
+    <!-- FORMULARI NOVA QUARTETA -->
+    <div id="formulariQuarteta" style="display:none;">
+
+        <h2>Nova quarteta</h2>
+
+        <textarea
+            id="novaQuarteta"
+            placeholder="Escriu ací la quarteta..."
+            rows="6"
+        ></textarea>
+
+        <input
             type="text"
-            id="busqueda"
-            placeholder="Buscar..."
-            onkeyup="actualitzarLlista()"
+            id="nouTema"
+            placeholder="Tema"
         />
 
-        <select id="filtroTema" onchange="actualitzarLlista()">
-            <option value="">Tots els temes</option>
-        </select>
+        <input
+            type="text"
+            id="nouSubtema"
+            placeholder="Subtema"
+        />
 
-        <div id="lista" class="grid"></div>
+        <button onclick="guardarQuarteta()">
+            💾 Guardar
+        </button>
 
-    </div>  
+        <button onclick="tancarFormulari()">
+            Cancel·lar
+        </button>
+
+    </div>
+
+    <div id="lista" class="grid"></div>
+
+</div>
 
     <div id="favorits" class="view">
         <h2 class="empty">Encara no tens favorits</h2>
