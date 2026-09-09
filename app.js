@@ -1,65 +1,65 @@
+let usuariActual = "NeusBM";
+
 console.log("APP CARREGADA");
 
-const URL_CSV = "Quartetes.csv";
+const API_URL =
+    "https://script.google.com/macros/s/AKfycbwSPX3Q0x-IXjYj960yyHpSVpjOxxWNl9I0S1O0rsX2TSjjJ6JOGYUgR_pkOfx7L6QDwg/exec";
+
 let datos = [];
 
 // ----------------------
-// CARGAR CSV
+// CARREGAR DADES (JSON)
 // ----------------------
 async function cargarDatos() {
-    const res = await fetch(URL_CSV);
-    const text = await res.text();
+    try {
+        console.log("▶️ carregant API...");
 
-    const rows = text
-        .split("\n")
-        .filter(l => l.trim() !== "");
+        const res = await fetch(API_URL);
+        const data = await res.json();
 
-    let current = "";
-    let insideQuotes = false;
-    const parsed = [];
+        console.log("📦 RAW:", data);
 
-    for (let i = 1; i < rows.length; i++) {
-        let line = rows[i];
-
-        current += (current ? "\n" : "") + line;
-
-        const quotes = (current.match(/"/g) || []).length;
-        insideQuotes = quotes % 2 !== 0;
-
-        if (!insideQuotes) {
-            parsed.push(current);
-            current = "";
+        if (!Array.isArray(data)) {
+            throw new Error("API no retorna array");
         }
+
+        datos = data.map(r => ({
+            id: r.id,
+            quarteta: r.quarteta || "",
+            tema: r.tema || "",
+            subtema: r.subtema || ""
+        }));
+
+        console.log("✅ OK:", datos.length);
+
+        omplirTemes();
+        actualitzarLlista();
+
+    } catch (err) {
+        console.error("❌ ERROR:", err);
     }
-
-    datos = parsed.map(f => {
-        const cols = f.split(";");
-
-        return {
-            id: (cols[0] || "").replace(/"/g, "").trim(),
-            quarteta: (cols[1] || "").replace(/"/g, "").trim(),
-            tema: (cols[2] || "").replace(/"/g, "").trim(),
-            subtema: (cols[3] || "").replace(/"/g, "").trim()
-        };
-    }).filter(d => d.quarteta);
-
-   const temes = [...new Set(datos.map(d => d.tema).filter(Boolean))];
-
-    document.getElementById("filtroTema").innerHTML =
-        `<option value="">Tots els temes</option>` +
-        temes.map(t => `<option value="${t}">${t}</option>`).join("");
-
-    console.log("Cargados:", datos.length);
-
-    // 🔥 AIXÒ FALTAVA
-    actualitzarLlista(); 
-
 }
 
 // ----------------------
-// ALEATORIO
+// OMPLIR FILTRE TEMES
+// ----------------------
+function omplirTemes() {
+
+    const select = document.getElementById("filtroTema");
+    if (!select) return;
+
+    const temes = [...new Set(datos.map(d => d.tema).filter(Boolean))];
+
+    select.innerHTML =
+        `<option value="">Tots els temes</option>` +
+        temes.map(t => `<option value="${t}">${t}</option>`).join("");
+}
+
+// ----------------------
+// ALEATORI
 // ----------------------
 function mostrarAleatoria() {
+
     if (!datos.length) return;
 
     const r = datos[Math.floor(Math.random() * datos.length)];
@@ -74,11 +74,19 @@ function mostrarAleatoria() {
 }
 
 // ----------------------
-// BUSCAR
+// BUSCAR + FILTRE
 // ----------------------
 function actualitzarLlista() {
-    const text = document.getElementById("busqueda").value.toLowerCase();
-    const tema = document.getElementById("filtroTema").value;
+
+    if (!datos.length) return;
+
+    const text = (document.getElementById("busqueda").value || "")
+        .trim()
+        .toLowerCase();
+
+    const tema = (document.getElementById("filtroTema").value || "")
+        .trim()
+        .toLowerCase();
 
     const filtrats = datos.filter(d => {
 
@@ -88,7 +96,7 @@ function actualitzarLlista() {
             (d.subtema || "").toLowerCase().includes(text);
 
         const matchTema =
-            !tema || d.tema === tema;
+            !tema || (d.tema || "").trim().toLowerCase() === tema;
 
         return matchText && matchTema;
     });
@@ -103,9 +111,10 @@ function actualitzarLlista() {
 }
 
 // ----------------------
-// VISTES (SISTEMA ÚNIC)
+// VISTES
 // ----------------------
 function canviarVista(vista) {
+
     document.querySelectorAll(".view").forEach(v => {
         v.classList.remove("active");
     });
@@ -117,20 +126,10 @@ function canviarVista(vista) {
 // ----------------------
 // INICI
 // ----------------------
-cargarDatos().then(() => {
+window.addEventListener("DOMContentLoaded", async () => {
+
+    await cargarDatos();
+
     canviarVista("home");
     mostrarAleatoria();
 });
-
-function mostrarLlista() {
-    const container = document.getElementById("lista");
-
-    container.innerHTML = datos.map(d => `
-        <div class="item">
-            <div class="tema">${d.tema || ""}</div>
-            <div class="subtema">${d.subtema || ""}</div>
-            <p>${d.quarteta || ""}</p>
-        </div>
-    `).join("");
-}
-
