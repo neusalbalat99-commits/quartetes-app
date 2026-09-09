@@ -154,8 +154,6 @@ button:active {
 
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 
-    white-space: pre-line;
-
     transition: transform 0.2s ease;
 }
 
@@ -163,7 +161,13 @@ button:active {
     transform: scale(1.01);
 }
 
+.item p {
+    margin: 5px 0 0 0;
 
+    white-space: pre-line;
+
+    line-height: 1.45;
+}
 
 /* TEMA */
 
@@ -812,15 +816,9 @@ select {
 
     .item {
         padding: 9px 11px;
-
+    
         font-size: 14px;
     }
-
-
-    .item p {
-        margin-top: 5px;
-    }
-
 
     .selector-tema-compacte {
         width: 102px;
