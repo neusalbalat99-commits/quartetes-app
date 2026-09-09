@@ -28,20 +28,19 @@
     box-sizing: border-box;
 }
 
+
 body {
     margin: 0;
+
     padding-bottom: 82px;
 
     font-family: Arial, sans-serif;
 
     color: var(--text);
+
     background: var(--background);
 }
 
-
-/* =========================================================
-   TÍTOL
-========================================================= */
 
 .title {
     margin: 15px 0;
@@ -52,6 +51,7 @@ body {
     font-weight: 800;
 
     letter-spacing: 3px;
+
     text-transform: uppercase;
 
     color: var(--primary);
@@ -69,6 +69,7 @@ button {
     border-radius: var(--radius-small);
 
     background: var(--primary);
+
     color: white;
 
     font-family: inherit;
@@ -80,6 +81,7 @@ button {
         background 0.15s ease,
         box-shadow 0.15s ease;
 }
+
 
 button:active {
     transform: scale(0.96);
@@ -97,8 +99,10 @@ button:active {
     max-width: 900px;
 
     margin: 0 auto;
+
     padding: 15px;
 }
+
 
 .view.active {
     display: block;
@@ -106,7 +110,7 @@ button:active {
 
 
 /* =========================================================
-   CARD PRINCIPAL
+   QUARTETA ALEATÒRIA
 ========================================================= */
 
 .card {
@@ -119,6 +123,7 @@ button:active {
     box-shadow: var(--shadow-card);
 
     line-height: 1.6;
+
     white-space: pre-line;
 
     font-size: 18px;
@@ -131,48 +136,71 @@ button:active {
 
 .grid {
     display: grid;
-    gap: 10px;
+
+    gap: 8px;
 }
 
+
+/* CARTA DE CADA QUARTETA */
+
 .item {
-    padding: 12px;
+    position: relative;
+
+    padding: 10px 12px;
 
     background: var(--surface);
 
     border-radius: 12px;
 
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 3px 10px
+        rgba(0, 0, 0, 0.08);
 
     white-space: pre-line;
 
-    transition: transform 0.2s ease;
+    font-size: 14px;
+
+    line-height: 1.4;
+
+    transition:
+        transform 0.2s ease;
 }
+
 
 .item:hover {
     transform: scale(1.01);
 }
 
 
-/* =========================================================
-   TEMA / SUBTEMA
-========================================================= */
+.item p {
+    margin: 6px 0 0 0;
+}
+
+
+/* TEMA */
 
 .tema {
-    margin-bottom: 3px;
+    margin-bottom: 2px;
 
     font-size: 11px;
+
     font-weight: 600;
 
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
+
     text-transform: uppercase;
 
     color: var(--text-soft);
 }
 
+
+/* SUBTEMA */
+
 .subtema {
-    margin-bottom: 6px;
+    margin-bottom: 3px;
 
     font-size: 10px;
+
     font-style: italic;
 
     color: var(--text-light);
@@ -180,7 +208,7 @@ button:active {
 
 
 /* =========================================================
-   ELEMENTS DE FORMULARI
+   BUSCADOR + FILTRE
 ========================================================= */
 
 input,
@@ -190,17 +218,16 @@ select {
 }
 
 
-/* =========================================================
-   CERCA + FILTRE
-========================================================= */
-
 .barra-eines {
     margin-bottom: 16px;
 }
 
+
 .fila-cerca {
     display: flex;
+
     align-items: center;
+
     gap: 8px;
 }
 
@@ -211,23 +238,28 @@ select {
     position: relative;
 
     flex: 1;
+
     min-width: 0;
 
     height: 46px;
 
     display: flex;
+
     align-items: center;
 
     background: var(--surface);
 
     border: 1px solid var(--border);
+
     border-radius: var(--radius-medium);
 
     box-shadow: var(--shadow-soft);
 }
 
+
 .cerca input {
     width: 100%;
+
     height: 44px;
 
     margin: 0;
@@ -235,6 +267,7 @@ select {
     padding: 0 42px 0 14px;
 
     border: none;
+
     outline: none;
 
     border-radius: var(--radius-medium);
@@ -244,13 +277,15 @@ select {
     font-size: 16px;
 }
 
+
 .icona-cerca {
     position: absolute;
 
     right: 14px;
     top: 50%;
 
-    transform: translateY(-50%);
+    transform:
+        translateY(-50%);
 
     color: var(--text-light);
 
@@ -260,17 +295,21 @@ select {
 }
 
 
-/* FILTRE TEMA */
+/* =========================================================
+   FILTRE DE TEMA
+========================================================= */
 
 .selector-tema {
     position: relative;
 }
+
 
 .selector-tema-compacte {
     flex: none;
 
     width: 105px;
 }
+
 
 .selector-tema select {
     width: 100%;
@@ -279,11 +318,13 @@ select {
     -webkit-appearance: none;
 
     border: 1px solid var(--primary);
+
     border-radius: var(--radius-medium);
 
     outline: none;
 
     background: var(--primary);
+
     color: white;
 
     cursor: pointer;
@@ -293,6 +334,7 @@ select {
     font-weight: 600;
 }
 
+
 .selector-tema-compacte select {
     height: 46px;
 
@@ -301,1064 +343,14 @@ select {
     font-size: 14px;
 
     text-align: center;
+
     text-align-last: center;
 }
 
 
 /* =========================================================
-   BOTÓ FLOTANT AFEGIR
+   MENÚ ⋮ DE CADA QUARTETA
 ========================================================= */
-
-.boto-afegir-flotant {
-    position: fixed;
-
-    right: 18px;
-    bottom: 82px;
-
-    width: 56px;
-    height: 56px;
-
-    padding: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: none;
-    border-radius: 50%;
-
-    background: var(--primary);
-
-    color: white;
-
-    font-size: 34px;
-    font-weight: 300;
-
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
-
-    z-index: 90;
-}
-
-.boto-afegir-flotant:active {
-    transform: scale(0.92);
-}
-
-
-/* =========================================================
-   FORMULARI NOVA QUARTETA
-========================================================= */
-
-.formulari-quarteta {
-    padding: 18px;
-    margin-bottom: 22px;
-
-    background: var(--surface);
-
-    border-radius: var(--radius-large);
-
-    box-shadow: var(--shadow-card);
-}
-
-.cap-formulari {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 16px;
-}
-
-.cap-formulari h2 {
-    margin: 0;
-
-    font-size: 20px;
-}
-
-.tancar-formulari {
-    padding: 4px 8px;
-
-    background: transparent;
-
-    color: var(--text-soft);
-
-    border-radius: 50%;
-
-    font-size: 27px;
-}
-
-.formulari-quarteta textarea,
-.formulari-quarteta input,
-.formulari-quarteta select {
-    width: 100%;
-
-    margin-bottom: 11px;
-    padding: 13px;
-
-    border: 1px solid var(--border);
-    border-radius: 12px;
-
-    outline: none;
-
-    background: #fafafa;
-
-    color: var(--text);
-
-    font-size: 16px;
-}
-
-.formulari-quarteta textarea {
-    min-height: 130px;
-
-    resize: vertical;
-
-    line-height: 1.5;
-}
-
-.formulari-quarteta textarea:focus,
-.formulari-quarteta input:focus,
-.formulari-quarteta select:focus {
-    border-color: var(--primary);
-
-    background: white;
-
-    box-shadow: 0 0 0 2px rgba(168, 212, 140, 0.16);
-}
-
-.botons-formulari {
-    display: flex;
-    gap: 10px;
-
-    margin-top: 4px;
-}
-
-.botons-formulari button {
-    flex: 1;
-
-    padding: 12px;
-
-    border-radius: 12px;
-
-    font-size: 15px;
-}
-
-.boto-guardar {
-    background: var(--primary);
-}
-
-.boto-cancelar {
-    background: white;
-
-    color: var(--text-soft);
-
-    border: 1px solid var(--border);
-}
-
-
-/* =========================================================
-   BOTÓ RANDOM
-========================================================= */
-
-.random-btn {
-    display: block;
-
-    margin: 10px auto 15px auto;
-    padding: 10px 16px;
-
-    background: var(--primary);
-
-    border-radius: 12px;
-
-    color: white;
-
-    font-size: 14px;
-
-    box-shadow: var(--shadow-soft);
-}
-
-
-/* =========================================================
-   CALENDARI
-========================================================= */
-
-.cap-calendari {
-    margin-bottom: 16px;
-}
-
-.cap-calendari h2 {
-    margin: 0 0 5px 0;
-
-    font-size: 22px;
-}
-
-.cap-calendari p {
-    margin: 0;
-
-    color: var(--text-soft);
-
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-.contenidor-calendari {
-    width: 100%;
-
-    overflow: hidden;
-
-    background: var(--surface);
-
-    border-radius: var(--radius-large);
-
-    box-shadow: var(--shadow-card);
-}
-
-.google-calendar {
-    display: block;
-
-    width: 100%;
-    height: 620px;
-
-    border: none;
-}
-
-
-/* =========================================================
-   MENÚ INFERIOR
-========================================================= */
-
-.bottom-nav {
-    position: fixed;
-
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    height: 65px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-
-    background: var(--surface);
-
-    border-top: 1px solid var(--border);
-
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-
-    z-index: 100;
-}
-
-.bottom-nav button {
-    padding: 10px 18px;
-
-    border: none;
-
-    background: none;
-
-    color: var(--text);
-
-    font-size: 22px;
-}
-
-.bottom-nav button:active {
-    transform: scale(0.9);
-}
-
-
-/* =========================================================
-   MÒBIL
-========================================================= */
-
-@media (max-width: 768px) {
-
-    body {
-        padding: 10px;
-        padding-bottom: 85px;
-    }
-
-    .title {
-        margin: 10px 0;
-
-        font-size: 18px;
-
-        letter-spacing: 2px;
-    }
-
-    .view {
-        padding: 10px 5px;
-    }
-
-    .card {
-        padding: 15px;
-
-        border-radius: 14px;
-
-        font-size: 16px;
-    }
-
-    .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .item {
-        padding: 12px;
-
-        font-size: 14px;
-    }
-
-   .selector-tema-compacte select {
-    height: 46px;
-
-    padding: 0 12px;
-
-    font-size: 14px;
-
-    text-align: center;
-
-    text-align-last: center;
-}
-
-    .selector-tema-compacte select {
-        font-size: 14px;
-    }
-
-    .formulari-quarteta {
-        padding: 15px;
-    }
-
-    .google-calendar {
-        height: 560px;
-    }
-}
-
-
-/* =========================================================
-   MÒBILS MOLT ESTRETS
-========================================================= */
-
-@media (max-width: 420px) {
-
-    .fila-cerca {
-        gap: 7px;
-    }
-
-    .selector-tema-compacte {
-        width: 96px;
-    }
-
-    .selector-tema-compacte select {
-        padding-left: 10px;
-        padding-right: 28px;
-
-        font-size: 13px;
-    }
-
-    .botons-formulari {
-        flex-direction: column;
-    }
-
-    .google-calendar {
-        height: 520px;
-    }
-}
-
-let usuariActual = "NeusBM";
-
-console.log("APP CARREGADA");
-
-const API_URL =
-    "https://script.google.com/macros/s/AKfycbwSPX3Q0x-IXjYj960yyHpSVpjOxxWNl9I0S1O0rsX2TSjjJ6JOGYUgR_pkOfx7L6QDwg/exec";
-
-let datos = [];
-
-let idEditant = null;
-
-
-// =========================================================
-// CARREGAR DADES
-// =========================================================
-
-async function cargarDatos() {
-
-    try {
-
-        console.log("▶️ carregant API...");
-
-        const res = await fetch(API_URL);
-
-        const data = await res.json();
-
-        console.log("📦 RAW:", data);
-
-
-        if (!Array.isArray(data)) {
-
-            throw new Error(
-                "API no retorna array"
-            );
-
-        }
-
-
-        datos = data.map(r => ({
-
-            id: r.id,
-
-            quarteta:
-                r.quarteta || "",
-
-            tema:
-                r.tema || "",
-
-            subtema:
-                r.subtema || ""
-
-        }));
-
-
-        console.log(
-            "✅ OK:",
-            datos.length
-        );
-
-
-        omplirTemes();
-
-        actualitzarLlista();
-
-
-    } catch (err) {
-
-        console.error(
-            "❌ ERROR:",
-            err
-        );
-
-    }
-
-}
-
-
-// =========================================================
-// OMPLIR TEMES
-// =========================================================
-
-function omplirTemes() {
-
-    const temes = [
-        ...new Set(
-            datos
-                .map(d =>
-                    (d.tema || "")
-                        .trim()
-                )
-                .filter(Boolean)
-        )
-    ].sort(
-        (a, b) =>
-            a.localeCompare(b)
-    );
-
-
-    // FILTRE DEL LLISTAT
-
-    const filtroTema =
-        document.getElementById(
-            "filtroTema"
-        );
-
-
-    if (filtroTema) {
-
-        const seleccionat =
-            filtroTema.value;
-
-
-        filtroTema.innerHTML =
-            `<option value="">Tema</option>` +
-            temes
-                .map(tema =>
-                    `<option value="${tema}">
-                        ${tema}
-                    </option>`
-                )
-                .join("");
-
-
-        if (
-            temes.includes(
-                seleccionat
-            )
-        ) {
-
-            filtroTema.value =
-                seleccionat;
-
-        }
-
-    }
-
-
-    // SELECTOR DEL FORMULARI
-
-    const nouTema =
-        document.getElementById(
-            "nouTema"
-        );
-
-
-    if (nouTema) {
-
-        const seleccionat =
-            nouTema.value;
-
-
-        nouTema.innerHTML =
-            `<option value="">
-                Tria un tema
-            </option>` +
-
-            temes
-                .map(tema =>
-                    `<option value="${tema}">
-                        ${tema}
-                    </option>`
-                )
-                .join("") +
-
-            `<option value="__altre__">
-                ➕ Altre tema
-            </option>`;
-
-
-        if (
-            temes.includes(
-                seleccionat
-            ) ||
-            seleccionat ===
-            "__altre__"
-        ) {
-
-            nouTema.value =
-                seleccionat;
-
-        }
-
-    }
-
-}
-
-
-// =========================================================
-// QUARTETA ALEATÒRIA
-// =========================================================
-
-function mostrarAleatoria() {
-
-    if (!datos.length) {
-        return;
-    }
-
-
-    const r =
-        datos[
-            Math.floor(
-                Math.random() *
-                datos.length
-            )
-        ];
-
-
-    const resultat =
-        document.getElementById(
-            "resultado"
-        );
-
-
-    if (!resultat) {
-        return;
-    }
-
-
-    resultat.innerHTML = `
-
-        <div class="tema">
-            ${r.tema || ""}
-        </div>
-
-        <div class="subtema">
-            ${r.subtema || ""}
-        </div>
-
-        <p>
-            ${r.quarteta || ""}
-        </p>
-
-    `;
-
-}
-
-
-// =========================================================
-// BUSCADOR + FILTRE
-// =========================================================
-
-function actualitzarLlista() {
-
-    const lista =
-        document.getElementById(
-            "lista"
-        );
-
-
-    if (!lista) {
-        return;
-    }
-
-
-    if (!datos.length) {
-
-        lista.innerHTML = "";
-
-        return;
-
-    }
-
-
-    const text = (
-        document.getElementById(
-            "busqueda"
-        )?.value || ""
-    )
-        .trim()
-        .toLowerCase();
-
-
-    const tema = (
-        document.getElementById(
-            "filtroTema"
-        )?.value || ""
-    )
-        .trim()
-        .toLowerCase();
-
-
-    const filtrats =
-        datos.filter(d => {
-
-
-            const matchText =
-
-                (d.quarteta || "")
-                    .toLowerCase()
-                    .includes(text)
-
-                ||
-
-                (d.tema || "")
-                    .toLowerCase()
-                    .includes(text)
-
-                ||
-
-                (d.subtema || "")
-                    .toLowerCase()
-                    .includes(text);
-
-
-            const matchTema =
-
-                !tema
-
-                ||
-
-                (d.tema || "")
-                    .trim()
-                    .toLowerCase()
-                    === tema;
-
-
-            return (
-                matchText &&
-                matchTema
-            );
-
-        });
-
-
-    lista.innerHTML = filtrats
-        .map(d => `
-
-            <div class="item">
-
-                <div class="tema">
-                    ${d.tema || ""}
-                </div>
-
-                <div class="subtema">
-                    ${d.subtema || ""}
-                </div>
-
-                <p>
-                    ${d.quarteta || ""}
-                </p>
-
-
-                <div class="menu-quarteta">
-
-                    <button
-                        class="boto-menu-quarteta"
-                        onclick="obrirMenuQuarteta(event, '${d.id}')"
-                        aria-label="Opcions"
-                    >
-                        ⋮
-                    </button>
-
-
-                    <div
-                        id="menu-${d.id}"
-                        class="opcions-quarteta"
-                    >
-
-                        <button
-                            onclick="editarQuarteta('${d.id}')"
-                        >
-                            ✏️ Editar
-                        </button>
-
-
-                        <button
-                            class="opcio-borrar"
-                            onclick="borrarQuarteta('${d.id}')"
-                        >
-                            🗑️ Borrar
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        `)
-        .join("");
-
-}
-
-
-// =========================================================
-// VISTES
-// =========================================================
-
-function canviarVista(vista) {
-
-    document
-        .querySelectorAll(
-            ".view"
-        )
-        .forEach(v => {
-
-            v.classList.remove(
-                "active"
-            );
-
-        });
-
-
-    const el =
-        document.getElementById(
-            vista
-        );
-
-
-    if (el) {
-
-        el.classList.add(
-            "active"
-        );
-
-    }
-
-}
-
-
-// =========================================================
-// FORMULARI NOVA QUARTETA
-// =========================================================
-
-function mostrarFormulari() {
-
-    idEditant = null;
-
-
-    netejarFormulari();
-
-
-    const titol =
-        document.querySelector(
-            ".cap-formulari h2"
-        );
-
-
-    if (titol) {
-
-        titol.textContent =
-            "Nova quarteta";
-
-    }
-
-
-    obrirFormulari();
-
-}
-
-
-// =========================================================
-// OBRIR FORMULARI
-// =========================================================
-
-function obrirFormulari() {
-
-    const zonaLlistat =
-        document.getElementById(
-            "zonaLlistat"
-        );
-
-
-    const formulari =
-        document.getElementById(
-            "formulariQuarteta"
-        );
-
-
-    const botoAfegir =
-        document.getElementById(
-            "botoAfegirQuarteta"
-        );
-
-
-    if (zonaLlistat) {
-
-        zonaLlistat.style.display =
-            "none";
-
-    }
-
-
-    if (formulari) {
-
-        formulari.style.display =
-            "block";
-
-    }
-
-
-    if (botoAfegir) {
-
-        botoAfegir.style.display =
-            "none";
-
-    }
-
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
-}
-
-
-// =========================================================
-// TANCAR FORMULARI
-// =========================================================
-
-function tancarFormulari() {
-
-    const zonaLlistat =
-        document.getElementById(
-            "zonaLlistat"
-        );
-
-
-    const formulari =
-        document.getElementById(
-            "formulariQuarteta"
-        );
-
-
-    const botoAfegir =
-        document.getElementById(
-            "botoAfegirQuarteta"
-        );
-
-
-    if (formulari) {
-
-        formulari.style.display =
-            "none";
-
-    }
-
-
-    if (zonaLlistat) {
-
-        zonaLlistat.style.display =
-            "block";
-
-    }
-
-
-    if (botoAfegir) {
-
-        botoAfegir.style.display =
-            "flex";
-
-    }
-
-
-    idEditant = null;
-
-
-    netejarFormulari();
-
-
-    const titol =
-        document.querySelector(
-            ".cap-formulari h2"
-        );
-
-
-    if (titol) {
-
-        titol.textContent =
-            "Nova quarteta";
-
-    }
-
-}
-
-
-// =========================================================
-// NETEJAR FORMULARI
-// =========================================================
-
-function netejarFormulari() {
-
-    const novaQuarteta =
-        document.getElementById(
-            "novaQuarteta"
-        );
-
-
-    const nouTema =
-        document.getElementById(
-            "nouTema"
-        );
-
-
-    const altreTema =
-        document.getElementById(
-            "altreTema"
-        );
-
-
-    const nouSubtema =
-        document.getElementById(
-            "nouSubtema"
-        );
-
-
-    if (novaQuarteta) {
-
-        novaQuarteta.value = "";
-
-    }
-
-
-    if (nouTema) {
-
-        nouTema.value = "";
-
-    }
-
-
-    if (altreTema) {
-
-        altreTema.value = "";
-
-        altreTema.style.display =
-            "none";
-
-    }
-
-
-    if (nouSubtema) {
-
-        nouSubtema.value = "";
-
-    }
-
-}
-
-
-// =========================================================
-// CANVIAR TEMA NOU
-// =========================================================
-
-function canviarTemaNou() {
-
-    const select =
-        document.getElementById(
-            "nouTema"
-        );
-
-
-    const altre =
-        document.getElementById(
-            "altreTema"
-        );
-
-
-    if (!select || !altre) {
-
-        return;
-
-    }
-
-
-    if (
-        select.value ===
-        "__altre__"
-    ) {
-
-        altre.style.display =
-            "block";
-
-        altre.focus();
-
-    } else {
-
-        altre.style.display =
-            "none";
-
-        altre.value = "";
-
-    }
-
-}
-
-/* =========================================================
-   MENÚ DE TRES PUNTS DE CADA QUARTETA
-========================================================= */
-
-.item {
-    position: relative;
-}
-
-
-/* CONTENIDOR DELS TRES PUNTS */
 
 .menu-quarteta {
     position: absolute;
@@ -1370,7 +362,7 @@ function canviarTemaNou() {
 }
 
 
-/* BOTÓ ⋮ */
+/* BOTÓ DELS TRES PUNTS */
 
 .boto-menu-quarteta {
     width: 32px;
@@ -1379,10 +371,12 @@ function canviarTemaNou() {
     padding: 0;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     border: none;
+
     border-radius: 50%;
 
     background: transparent;
@@ -1390,6 +384,7 @@ function canviarTemaNou() {
     color: var(--text-soft);
 
     font-size: 24px;
+
     font-weight: normal;
 
     line-height: 1;
@@ -1423,6 +418,7 @@ function canviarTemaNou() {
     background: white;
 
     border: 1px solid var(--border);
+
     border-radius: 10px;
 
     box-shadow:
@@ -1433,24 +429,26 @@ function canviarTemaNou() {
 }
 
 
-/* NOMÉS ES MOSTRA QUAN PREMEM ⋮ */
+/* EL MENÚ NOMÉS APAREIX QUAN PREMEM ⋮ */
 
 .opcions-quarteta.obert {
     display: block;
 }
 
 
-/* BOTONS DEL MENÚ */
+/* BOTONS EDITAR / BORRAR */
 
 .opcions-quarteta button {
     width: 100%;
 
     margin: 0;
+
     padding: 9px 10px;
 
     display: block;
 
     border: none;
+
     border-radius: 7px;
 
     background: white;
@@ -1460,6 +458,7 @@ function canviarTemaNou() {
     text-align: left;
 
     font-size: 14px;
+
     font-weight: normal;
 
     box-shadow: none;
@@ -1472,473 +471,421 @@ function canviarTemaNou() {
 }
 
 
-/* BORRAR EN ROIG SUAU */
+/* BORRAR EN ROIG */
 
 .opcions-quarteta .opcio-borrar {
     color: #a04f4f;
 }
 
-// =========================================================
-// TANCAR MENÚ TOCANT FORA
-// =========================================================
 
-document.addEventListener(
-    "click",
-    () => {
+/* =========================================================
+   BOTÓ FLOTANT +
+========================================================= */
 
-        document
-            .querySelectorAll(
-                ".opcions-quarteta"
-            )
-            .forEach(menu => {
+.boto-afegir-flotant {
+    position: fixed;
 
-                menu.classList.remove(
-                    "obert"
-                );
+    right: 18px;
+    bottom: 82px;
 
-            });
+    width: 56px;
+    height: 56px;
 
-    }
-);
+    padding: 0;
 
+    display: flex;
 
-// =========================================================
-// EDITAR QUARTETA
-// =========================================================
+    align-items: center;
+    justify-content: center;
 
-function editarQuarteta(id) {
+    border: none;
 
-    const d =
-        datos.find(
-            q =>
-                String(q.id) ===
-                String(id)
-        );
+    border-radius: 50%;
 
+    background: var(--primary);
 
-    if (!d) {
+    color: white;
 
-        return;
+    font-size: 34px;
 
-    }
+    font-weight: 300;
 
+    box-shadow:
+        0 5px 18px
+        rgba(0, 0, 0, 0.22);
 
-    idEditant =
-        d.id;
-
-
-    const novaQuarteta =
-        document.getElementById(
-            "novaQuarteta"
-        );
-
-
-    const nouSubtema =
-        document.getElementById(
-            "nouSubtema"
-        );
-
-
-    const select =
-        document.getElementById(
-            "nouTema"
-        );
-
-
-    const altreTema =
-        document.getElementById(
-            "altreTema"
-        );
-
-
-    if (novaQuarteta) {
-
-        novaQuarteta.value =
-            d.quarteta || "";
-
-    }
-
-
-    if (nouSubtema) {
-
-        nouSubtema.value =
-            d.subtema || "";
-
-    }
-
-
-    const temaActual =
-        d.tema || "";
-
-
-    if (
-        select &&
-        altreTema
-    ) {
-
-        const existeix =
-            [...select.options]
-                .some(
-                    opcio =>
-                        opcio.value ===
-                        temaActual
-                );
-
-
-        if (existeix) {
-
-            select.value =
-                temaActual;
-
-            altreTema.style.display =
-                "none";
-
-            altreTema.value =
-                "";
-
-        } else {
-
-            select.value =
-                "__altre__";
-
-            altreTema.style.display =
-                "block";
-
-            altreTema.value =
-                temaActual;
-
-        }
-
-    }
-
-
-    const titol =
-        document.querySelector(
-            ".cap-formulari h2"
-        );
-
-
-    if (titol) {
-
-        titol.textContent =
-            "Editar quarteta";
-
-    }
-
-
-    obrirFormulari();
-
+    z-index: 90;
 }
 
 
-// =========================================================
-// GUARDAR NOVA O EDITAR
-// =========================================================
-
-async function guardarQuarteta() {
-
-    const quarteta =
-        document
-            .getElementById(
-                "novaQuarteta"
-            )
-            .value
-            .trim();
-
-
-    const selectorTema =
-        document
-            .getElementById(
-                "nouTema"
-            )
-            .value;
-
-
-    const altreTema =
-        document
-            .getElementById(
-                "altreTema"
-            )
-            .value
-            .trim();
-
-
-    const subtema =
-        document
-            .getElementById(
-                "nouSubtema"
-            )
-            .value
-            .trim();
-
-
-    let tema =
-        selectorTema;
-
-
-    if (
-        selectorTema ===
-        "__altre__"
-    ) {
-
-        tema =
-            altreTema;
-
-    }
-
-
-    if (!quarteta) {
-
-        alert(
-            "Has d'escriure una quarteta."
-        );
-
-        return;
-
-    }
-
-
-    if (!tema) {
-
-        alert(
-            "Has de triar un tema."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        let url;
-
-
-        // EDITAR
-
-        if (
-            idEditant !== null
-        ) {
-
-            url =
-                API_URL +
-
-                "?action=editar" +
-
-                "&id=" +
-                encodeURIComponent(
-                    idEditant
-                ) +
-
-                "&quarteta=" +
-                encodeURIComponent(
-                    quarteta
-                ) +
-
-                "&tema=" +
-                encodeURIComponent(
-                    tema
-                ) +
-
-                "&subtema=" +
-                encodeURIComponent(
-                    subtema
-                );
-
-        }
-
-
-        // AFEGIR NOVA
-
-        else {
-
-            url =
-                API_URL +
-
-                "?action=afegir" +
-
-                "&quarteta=" +
-                encodeURIComponent(
-                    quarteta
-                ) +
-
-                "&tema=" +
-                encodeURIComponent(
-                    tema
-                ) +
-
-                "&subtema=" +
-                encodeURIComponent(
-                    subtema
-                );
-
-        }
-
-
-        const res =
-            await fetch(url);
-
-
-        const resposta =
-            await res.json();
-
-
-        if (!resposta.ok) {
-
-            throw new Error(
-                resposta.error ||
-                "No s'ha pogut guardar"
-            );
-
-        }
-
-
-        if (
-            idEditant !== null
-        ) {
-
-            alert(
-                "✅ Quarteta editada correctament"
-            );
-
-        } else {
-
-            alert(
-                "✅ Quarteta guardada correctament"
-            );
-
-        }
-
-
-        idEditant = null;
-
-
-        tancarFormulari();
-
-
-        await cargarDatos();
-
-
-    } catch (err) {
-
-        console.error(
-            "❌ Error guardant:",
-            err
-        );
-
-
-        alert(
-            "❌ No s'ha pogut guardar la quarteta."
-        );
-
-    }
-
+.boto-afegir-flotant:active {
+    transform: scale(0.92);
 }
 
 
-// =========================================================
-// BORRAR QUARTETA
-// =========================================================
+/* =========================================================
+   FORMULARI
+========================================================= */
 
-async function borrarQuarteta(id) {
+.formulari-quarteta {
+    padding: 18px;
 
-    const d =
-        datos.find(
-            q =>
-                String(q.id) ===
-                String(id)
-        );
+    margin-bottom: 22px;
+
+    background: var(--surface);
+
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-card);
+}
 
 
-    if (!d) {
+.cap-formulari {
+    display: flex;
 
-        return;
+    align-items: center;
 
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+}
+
+
+.cap-formulari h2 {
+    margin: 0;
+
+    font-size: 20px;
+}
+
+
+.tancar-formulari {
+    padding: 4px 8px;
+
+    background: transparent;
+
+    color: var(--text-soft);
+
+    border-radius: 50%;
+
+    font-size: 27px;
+}
+
+
+.formulari-quarteta textarea,
+.formulari-quarteta input,
+.formulari-quarteta select {
+    width: 100%;
+
+    margin-bottom: 11px;
+
+    padding: 13px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background: #fafafa;
+
+    color: var(--text);
+
+    font-size: 16px;
+}
+
+
+.formulari-quarteta textarea {
+    min-height: 130px;
+
+    resize: vertical;
+
+    line-height: 1.5;
+}
+
+
+.formulari-quarteta textarea:focus,
+.formulari-quarteta input:focus,
+.formulari-quarteta select:focus {
+    border-color: var(--primary);
+
+    background: white;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(168, 212, 140, 0.16);
+}
+
+
+/* BOTONS FORMULARI */
+
+.botons-formulari {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 4px;
+}
+
+
+.botons-formulari button {
+    flex: 1;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+}
+
+
+.boto-guardar {
+    background: var(--primary);
+}
+
+
+.boto-cancelar {
+    background: white;
+
+    color: var(--text-soft);
+
+    border: 1px solid var(--border);
+}
+
+
+/* =========================================================
+   BOTÓ QUARTETA ALEATÒRIA
+========================================================= */
+
+.random-btn {
+    display: block;
+
+    margin:
+        10px auto
+        15px auto;
+
+    padding: 10px 16px;
+
+    background: var(--primary);
+
+    border-radius: 12px;
+
+    color: white;
+
+    font-size: 14px;
+
+    box-shadow: var(--shadow-soft);
+}
+
+
+/* =========================================================
+   CALENDARI
+========================================================= */
+
+.cap-calendari {
+    margin-bottom: 16px;
+}
+
+
+.cap-calendari h2 {
+    margin: 0 0 5px 0;
+
+    font-size: 22px;
+}
+
+
+.cap-calendari p {
+    margin: 0;
+
+    color: var(--text-soft);
+
+    font-size: 14px;
+
+    line-height: 1.4;
+}
+
+
+.contenidor-calendari {
+    width: 100%;
+
+    overflow: hidden;
+
+    background: var(--surface);
+
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-card);
+}
+
+
+.google-calendar {
+    display: block;
+
+    width: 100%;
+
+    height: 620px;
+
+    border: none;
+}
+
+
+/* =========================================================
+   MENÚ INFERIOR
+========================================================= */
+
+.bottom-nav {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-around;
+
+    background: var(--surface);
+
+    border-top:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        0 -2px 10px
+        rgba(0, 0, 0, 0.05);
+
+    z-index: 100;
+}
+
+
+.bottom-nav button {
+    padding: 10px 18px;
+
+    border: none;
+
+    background: none;
+
+    color: var(--text);
+
+    font-size: 22px;
+}
+
+
+.bottom-nav button:active {
+    transform: scale(0.9);
+}
+
+
+/* =========================================================
+   MÒBIL
+========================================================= */
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 10px;
+
+        padding-bottom: 85px;
     }
 
 
-    const confirmar =
-        confirm(
-            "Segur que vols borrar esta quarteta?\n\n" +
-            d.quarteta
-        );
+    .title {
+        margin: 10px 0;
 
+        font-size: 18px;
 
-    if (!confirmar) {
-
-        return;
-
+        letter-spacing: 2px;
     }
 
 
-    try {
-
-        const url =
-            API_URL +
-
-            "?action=borrar" +
-
-            "&id=" +
-            encodeURIComponent(
-                id
-            );
+    .view {
+        padding: 10px 5px;
+    }
 
 
-        const res =
-            await fetch(url);
+    .card {
+        padding: 15px;
+
+        border-radius: 14px;
+
+        font-size: 16px;
+    }
 
 
-        const resposta =
-            await res.json();
+    .grid {
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+    }
 
 
-        if (!resposta.ok) {
+    .item {
+        padding: 9px 11px;
 
-            throw new Error(
-                resposta.error ||
-                "No s'ha pogut borrar"
-            );
-
-        }
+        font-size: 14px;
+    }
 
 
-        await cargarDatos();
+    .item p {
+        margin-top: 5px;
+    }
 
 
-    } catch (err) {
-
-        console.error(
-            "❌ Error borrant:",
-            err
-        );
+    .selector-tema-compacte {
+        width: 102px;
+    }
 
 
-        alert(
-            "❌ No s'ha pogut borrar la quarteta."
-        );
+    .selector-tema-compacte select {
+        font-size: 14px;
+    }
 
+
+    .formulari-quarteta {
+        padding: 15px;
+    }
+
+
+    .google-calendar {
+        height: 560px;
     }
 
 }
 
 
-// =========================================================
-// INICI
-// =========================================================
+/* =========================================================
+   MÒBILS MENUTS
+========================================================= */
 
-window.addEventListener(
-    "DOMContentLoaded",
-    async () => {
+@media (max-width: 420px) {
 
-        await cargarDatos();
-
-
-        canviarVista(
-            "home"
-        );
-
-
-        mostrarAleatoria();
-
+    .fila-cerca {
+        gap: 7px;
     }
-);
+
+
+    .selector-tema-compacte {
+        width: 96px;
+    }
+
+
+    .selector-tema-compacte select {
+        padding: 0 10px;
+
+        font-size: 13px;
+    }
+
+
+    .botons-formulari {
+        flex-direction: column;
+    }
+
+
+    .google-calendar {
+        height: 520px;
+    }
+
+}
