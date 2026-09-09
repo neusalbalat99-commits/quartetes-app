@@ -7,6 +7,8 @@ const API_URL =
 
 let datos = [];
 
+let idEditant = null;
+
 
 // =========================================================
 // CARREGAR DADES
@@ -19,30 +21,57 @@ async function cargarDatos() {
         console.log("▶️ carregant API...");
 
         const res = await fetch(API_URL);
+
         const data = await res.json();
 
         console.log("📦 RAW:", data);
 
+
         if (!Array.isArray(data)) {
-            throw new Error("API no retorna array");
+
+            throw new Error(
+                "API no retorna array"
+            );
+
         }
 
+
         datos = data.map(r => ({
+
             id: r.id,
-            quarteta: r.quarteta || "",
-            tema: r.tema || "",
-            subtema: r.subtema || ""
+
+            quarteta:
+                r.quarteta || "",
+
+            tema:
+                r.tema || "",
+
+            subtema:
+                r.subtema || ""
+
         }));
 
-        console.log("✅ OK:", datos.length);
+
+        console.log(
+            "✅ OK:",
+            datos.length
+        );
+
 
         omplirTemes();
+
         actualitzarLlista();
+
 
     } catch (err) {
 
-        console.error("❌ ERROR:", err);
+        console.error(
+            "❌ ERROR:",
+            err
+        );
+
     }
+
 }
 
 
@@ -52,53 +81,107 @@ async function cargarDatos() {
 
 function omplirTemes() {
 
-    const temes = [...new Set(
-        datos
-            .map(d => (d.tema || "").trim())
-            .filter(Boolean)
-    )].sort((a, b) => a.localeCompare(b));
+    const temes = [
+        ...new Set(
+            datos
+                .map(d =>
+                    (d.tema || "")
+                        .trim()
+                )
+                .filter(Boolean)
+        )
+    ].sort(
+        (a, b) =>
+            a.localeCompare(b)
+    );
 
 
     // FILTRE DEL LLISTAT
-    const filtroTema = document.getElementById("filtroTema");
+
+    const filtroTema =
+        document.getElementById(
+            "filtroTema"
+        );
+
 
     if (filtroTema) {
 
-        const temaSeleccionat = filtroTema.value;
+        const seleccionat =
+            filtroTema.value;
+
 
         filtroTema.innerHTML =
             `<option value="">Tema</option>` +
             temes
-                .map(tema => `<option value="${tema}">${tema}</option>`)
+                .map(tema =>
+                    `<option value="${tema}">
+                        ${tema}
+                    </option>`
+                )
                 .join("");
 
-        if (temes.includes(temaSeleccionat)) {
-            filtroTema.value = temaSeleccionat;
+
+        if (
+            temes.includes(
+                seleccionat
+            )
+        ) {
+
+            filtroTema.value =
+                seleccionat;
+
         }
+
     }
 
 
     // SELECTOR DEL FORMULARI
-    const nouTema = document.getElementById("nouTema");
+
+    const nouTema =
+        document.getElementById(
+            "nouTema"
+        );
+
 
     if (nouTema) {
 
-        const temaSeleccionat = nouTema.value;
+        const seleccionat =
+            nouTema.value;
+
 
         nouTema.innerHTML =
-            `<option value="">Tria un tema</option>` +
+            `<option value="">
+                Tria un tema
+            </option>` +
+
             temes
-                .map(tema => `<option value="${tema}">${tema}</option>`)
+                .map(tema =>
+                    `<option value="${tema}">
+                        ${tema}
+                    </option>`
+                )
                 .join("") +
-            `<option value="__altre__">➕ Altre tema</option>`;
+
+            `<option value="__altre__">
+                ➕ Altre tema
+            </option>`;
+
 
         if (
-            temes.includes(temaSeleccionat) ||
-            temaSeleccionat === "__altre__"
+            temes.includes(
+                seleccionat
+            ) ||
+            seleccionat ===
+            "__altre__"
         ) {
-            nouTema.value = temaSeleccionat;
+
+            nouTema.value =
+                seleccionat;
+
         }
+
     }
+
 }
 
 
@@ -108,15 +191,47 @@ function omplirTemes() {
 
 function mostrarAleatoria() {
 
-    if (!datos.length) return;
+    if (!datos.length) {
+        return;
+    }
 
-    const r = datos[Math.floor(Math.random() * datos.length)];
 
-    document.getElementById("resultado").innerHTML = `
-        <div class="tema">${r.tema || ""}</div>
-        <div class="subtema">${r.subtema || ""}</div>
-        <p>${r.quarteta || ""}</p>
+    const r =
+        datos[
+            Math.floor(
+                Math.random() *
+                datos.length
+            )
+        ];
+
+
+    const resultat =
+        document.getElementById(
+            "resultado"
+        );
+
+
+    if (!resultat) {
+        return;
+    }
+
+
+    resultat.innerHTML = `
+
+        <div class="tema">
+            ${r.tema || ""}
+        </div>
+
+        <div class="subtema">
+            ${r.subtema || ""}
+        </div>
+
+        <p>
+            ${r.quarteta || ""}
+        </p>
+
     `;
+
 }
 
 
@@ -126,48 +241,144 @@ function mostrarAleatoria() {
 
 function actualitzarLlista() {
 
-    if (!datos.length) {
-        document.getElementById("lista").innerHTML = "";
+    const lista =
+        document.getElementById(
+            "lista"
+        );
+
+
+    if (!lista) {
         return;
     }
 
+
+    if (!datos.length) {
+
+        lista.innerHTML = "";
+
+        return;
+
+    }
+
+
     const text = (
-        document.getElementById("busqueda")?.value || ""
+        document.getElementById(
+            "busqueda"
+        )?.value || ""
     )
         .trim()
         .toLowerCase();
+
 
     const tema = (
-        document.getElementById("filtroTema")?.value || ""
+        document.getElementById(
+            "filtroTema"
+        )?.value || ""
     )
         .trim()
         .toLowerCase();
 
 
-    const filtrats = datos.filter(d => {
-
-        const matchText =
-            (d.quarteta || "").toLowerCase().includes(text) ||
-            (d.tema || "").toLowerCase().includes(text) ||
-            (d.subtema || "").toLowerCase().includes(text);
-
-        const matchTema =
-            !tema ||
-            (d.tema || "").trim().toLowerCase() === tema;
-
-        return matchText && matchTema;
-    });
+    const filtrats =
+        datos.filter(d => {
 
 
-    document.getElementById("lista").innerHTML = filtrats
+            const matchText =
+
+                (d.quarteta || "")
+                    .toLowerCase()
+                    .includes(text)
+
+                ||
+
+                (d.tema || "")
+                    .toLowerCase()
+                    .includes(text)
+
+                ||
+
+                (d.subtema || "")
+                    .toLowerCase()
+                    .includes(text);
+
+
+            const matchTema =
+
+                !tema
+
+                ||
+
+                (d.tema || "")
+                    .trim()
+                    .toLowerCase()
+                    === tema;
+
+
+            return (
+                matchText &&
+                matchTema
+            );
+
+        });
+
+
+    lista.innerHTML = filtrats
         .map(d => `
+
             <div class="item">
-                <div class="tema">${d.tema || ""}</div>
-                <div class="subtema">${d.subtema || ""}</div>
-                <p>${d.quarteta || ""}</p>
+
+                <div class="tema">
+                    ${d.tema || ""}
+                </div>
+
+                <div class="subtema">
+                    ${d.subtema || ""}
+                </div>
+
+                <p>
+                    ${d.quarteta || ""}
+                </p>
+
+
+                <div class="menu-quarteta">
+
+                    <button
+                        class="boto-menu-quarteta"
+                        onclick="obrirMenuQuarteta(event, '${d.id}')"
+                        aria-label="Opcions"
+                    >
+                        ⋮
+                    </button>
+
+
+                    <div
+                        id="menu-${d.id}"
+                        class="opcions-quarteta"
+                    >
+
+                        <button
+                            onclick="editarQuarteta('${d.id}')"
+                        >
+                            ✏️ Editar
+                        </button>
+
+
+                        <button
+                            class="opcio-borrar"
+                            onclick="borrarQuarteta('${d.id}')"
+                        >
+                            🗑️ Borrar
+                        </button>
+
+                    </div>
+
+                </div>
+
             </div>
+
         `)
         .join("");
+
 }
 
 
@@ -177,15 +388,33 @@ function actualitzarLlista() {
 
 function canviarVista(vista) {
 
-    document.querySelectorAll(".view").forEach(v => {
-        v.classList.remove("active");
-    });
+    document
+        .querySelectorAll(
+            ".view"
+        )
+        .forEach(v => {
 
-    const el = document.getElementById(vista);
+            v.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    const el =
+        document.getElementById(
+            vista
+        );
+
 
     if (el) {
-        el.classList.add("active");
+
+        el.classList.add(
+            "active"
+        );
+
     }
+
 }
 
 
@@ -195,120 +424,707 @@ function canviarVista(vista) {
 
 function mostrarFormulari() {
 
-    const zonaLlistat =
-        document.getElementById("zonaLlistat");
-
-    const formulari =
-        document.getElementById("formulariQuarteta");
-
-    const botoAfegir =
-        document.getElementById("botoAfegirQuarteta");
+    idEditant = null;
 
 
-    if (zonaLlistat) {
-        zonaLlistat.style.display = "none";
-    }
+    netejarFormulari();
 
-    if (formulari) {
-        formulari.style.display = "block";
-    }
 
-    if (botoAfegir) {
-        botoAfegir.style.display = "none";
+    const titol =
+        document.querySelector(
+            ".cap-formulari h2"
+        );
+
+
+    if (titol) {
+
+        titol.textContent =
+            "Nova quarteta";
+
     }
 
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}
+    obrirFormulari();
 
-
-function tancarFormulari() {
-
-    const zonaLlistat =
-        document.getElementById("zonaLlistat");
-
-    const formulari =
-        document.getElementById("formulariQuarteta");
-
-    const botoAfegir =
-        document.getElementById("botoAfegirQuarteta");
-
-
-    if (formulari) {
-        formulari.style.display = "none";
-    }
-
-    if (zonaLlistat) {
-        zonaLlistat.style.display = "block";
-    }
-
-    if (botoAfegir) {
-        botoAfegir.style.display = "flex";
-    }
-}
-
-
-function canviarTemaNou() {
-
-    const select =
-        document.getElementById("nouTema");
-
-    const altre =
-        document.getElementById("altreTema");
-
-    if (!select || !altre) return;
-
-
-    if (select.value === "__altre__") {
-
-        altre.style.display = "block";
-        altre.focus();
-
-    } else {
-
-        altre.style.display = "none";
-        altre.value = "";
-    }
 }
 
 
 // =========================================================
-// GUARDAR QUARTETA
+// OBRIR FORMULARI
+// =========================================================
+
+function obrirFormulari() {
+
+    const zonaLlistat =
+        document.getElementById(
+            "zonaLlistat"
+        );
+
+
+    const formulari =
+        document.getElementById(
+            "formulariQuarteta"
+        );
+
+
+    const botoAfegir =
+        document.getElementById(
+            "botoAfegirQuarteta"
+        );
+
+
+    if (zonaLlistat) {
+
+        zonaLlistat.style.display =
+            "none";
+
+    }
+
+
+    if (formulari) {
+
+        formulari.style.display =
+            "block";
+
+    }
+
+
+    if (botoAfegir) {
+
+        botoAfegir.style.display =
+            "none";
+
+    }
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+// =========================================================
+// TANCAR FORMULARI
+// =========================================================
+
+function tancarFormulari() {
+
+    const zonaLlistat =
+        document.getElementById(
+            "zonaLlistat"
+        );
+
+
+    const formulari =
+        document.getElementById(
+            "formulariQuarteta"
+        );
+
+
+    const botoAfegir =
+        document.getElementById(
+            "botoAfegirQuarteta"
+        );
+
+
+    if (formulari) {
+
+        formulari.style.display =
+            "none";
+
+    }
+
+
+    if (zonaLlistat) {
+
+        zonaLlistat.style.display =
+            "block";
+
+    }
+
+
+    if (botoAfegir) {
+
+        botoAfegir.style.display =
+            "flex";
+
+    }
+
+
+    idEditant = null;
+
+
+    netejarFormulari();
+
+
+    const titol =
+        document.querySelector(
+            ".cap-formulari h2"
+        );
+
+
+    if (titol) {
+
+        titol.textContent =
+            "Nova quarteta";
+
+    }
+
+}
+
+
+// =========================================================
+// NETEJAR FORMULARI
+// =========================================================
+
+function netejarFormulari() {
+
+    const novaQuarteta =
+        document.getElementById(
+            "novaQuarteta"
+        );
+
+
+    const nouTema =
+        document.getElementById(
+            "nouTema"
+        );
+
+
+    const altreTema =
+        document.getElementById(
+            "altreTema"
+        );
+
+
+    const nouSubtema =
+        document.getElementById(
+            "nouSubtema"
+        );
+
+
+    if (novaQuarteta) {
+
+        novaQuarteta.value = "";
+
+    }
+
+
+    if (nouTema) {
+
+        nouTema.value = "";
+
+    }
+
+
+    if (altreTema) {
+
+        altreTema.value = "";
+
+        altreTema.style.display =
+            "none";
+
+    }
+
+
+    if (nouSubtema) {
+
+        nouSubtema.value = "";
+
+    }
+
+}
+
+
+// =========================================================
+// CANVIAR TEMA NOU
+// =========================================================
+
+function canviarTemaNou() {
+
+    const select =
+        document.getElementById(
+            "nouTema"
+        );
+
+
+    const altre =
+        document.getElementById(
+            "altreTema"
+        );
+
+
+    if (!select || !altre) {
+
+        return;
+
+    }
+
+
+    if (
+        select.value ===
+        "__altre__"
+    ) {
+
+        altre.style.display =
+            "block";
+
+        altre.focus();
+
+    } else {
+
+        altre.style.display =
+            "none";
+
+        altre.value = "";
+
+    }
+
+}
+
+
+// =========================================================
+// MENÚ DE TRES PUNTS
+// =========================================================
+
+function obrirMenuQuarteta(
+    event,
+    id
+) {
+
+    event.stopPropagation();
+
+
+    const menu =
+        document.getElementById(
+            "menu-" + id
+        );
+
+
+    if (!menu) {
+        return;
+    }
+
+
+    document
+        .querySelectorAll(
+            ".opcions-quarteta"
+        )
+        .forEach(m => {
+
+            if (m !== menu) {
+
+                m.classList.remove(
+                    "obert"
+                );
+
+            }
+
+        });
+
+
+    menu.classList.toggle(
+        "obert"
+    );
+
+}
+
+
+// =========================================================
+// TANCAR MENÚ TOCANT FORA
+// =========================================================
+
+document.addEventListener(
+    "click",
+    () => {
+
+        document
+            .querySelectorAll(
+                ".opcions-quarteta"
+            )
+            .forEach(menu => {
+
+                menu.classList.remove(
+                    "obert"
+                );
+
+            });
+
+    }
+);
+
+
+// =========================================================
+// EDITAR QUARTETA
+// =========================================================
+
+function editarQuarteta(id) {
+
+    const d =
+        datos.find(
+            q =>
+                String(q.id) ===
+                String(id)
+        );
+
+
+    if (!d) {
+
+        return;
+
+    }
+
+
+    idEditant =
+        d.id;
+
+
+    const novaQuarteta =
+        document.getElementById(
+            "novaQuarteta"
+        );
+
+
+    const nouSubtema =
+        document.getElementById(
+            "nouSubtema"
+        );
+
+
+    const select =
+        document.getElementById(
+            "nouTema"
+        );
+
+
+    const altreTema =
+        document.getElementById(
+            "altreTema"
+        );
+
+
+    if (novaQuarteta) {
+
+        novaQuarteta.value =
+            d.quarteta || "";
+
+    }
+
+
+    if (nouSubtema) {
+
+        nouSubtema.value =
+            d.subtema || "";
+
+    }
+
+
+    const temaActual =
+        d.tema || "";
+
+
+    if (
+        select &&
+        altreTema
+    ) {
+
+        const existeix =
+            [...select.options]
+                .some(
+                    opcio =>
+                        opcio.value ===
+                        temaActual
+                );
+
+
+        if (existeix) {
+
+            select.value =
+                temaActual;
+
+            altreTema.style.display =
+                "none";
+
+            altreTema.value =
+                "";
+
+        } else {
+
+            select.value =
+                "__altre__";
+
+            altreTema.style.display =
+                "block";
+
+            altreTema.value =
+                temaActual;
+
+        }
+
+    }
+
+
+    const titol =
+        document.querySelector(
+            ".cap-formulari h2"
+        );
+
+
+    if (titol) {
+
+        titol.textContent =
+            "Editar quarteta";
+
+    }
+
+
+    obrirFormulari();
+
+}
+
+
+// =========================================================
+// GUARDAR NOVA O EDITAR
 // =========================================================
 
 async function guardarQuarteta() {
 
     const quarteta =
-        document.getElementById("novaQuarteta").value.trim();
+        document
+            .getElementById(
+                "novaQuarteta"
+            )
+            .value
+            .trim();
+
 
     const selectorTema =
-        document.getElementById("nouTema").value;
+        document
+            .getElementById(
+                "nouTema"
+            )
+            .value;
+
 
     const altreTema =
-        document.getElementById("altreTema").value.trim();
+        document
+            .getElementById(
+                "altreTema"
+            )
+            .value
+            .trim();
+
 
     const subtema =
-        document.getElementById("nouSubtema").value.trim();
+        document
+            .getElementById(
+                "nouSubtema"
+            )
+            .value
+            .trim();
 
 
-    let tema = selectorTema;
+    let tema =
+        selectorTema;
 
-    if (selectorTema === "__altre__") {
-        tema = altreTema;
+
+    if (
+        selectorTema ===
+        "__altre__"
+    ) {
+
+        tema =
+            altreTema;
+
     }
 
 
     if (!quarteta) {
-        alert("Has d'escriure una quarteta.");
+
+        alert(
+            "Has d'escriure una quarteta."
+        );
+
         return;
+
     }
 
+
     if (!tema) {
-        alert("Has de triar un tema.");
+
+        alert(
+            "Has de triar un tema."
+        );
+
         return;
+
+    }
+
+
+    try {
+
+        let url;
+
+
+        // EDITAR
+
+        if (
+            idEditant !== null
+        ) {
+
+            url =
+                API_URL +
+
+                "?action=editar" +
+
+                "&id=" +
+                encodeURIComponent(
+                    idEditant
+                ) +
+
+                "&quarteta=" +
+                encodeURIComponent(
+                    quarteta
+                ) +
+
+                "&tema=" +
+                encodeURIComponent(
+                    tema
+                ) +
+
+                "&subtema=" +
+                encodeURIComponent(
+                    subtema
+                );
+
+        }
+
+
+        // AFEGIR NOVA
+
+        else {
+
+            url =
+                API_URL +
+
+                "?action=afegir" +
+
+                "&quarteta=" +
+                encodeURIComponent(
+                    quarteta
+                ) +
+
+                "&tema=" +
+                encodeURIComponent(
+                    tema
+                ) +
+
+                "&subtema=" +
+                encodeURIComponent(
+                    subtema
+                );
+
+        }
+
+
+        const res =
+            await fetch(url);
+
+
+        const resposta =
+            await res.json();
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                resposta.error ||
+                "No s'ha pogut guardar"
+            );
+
+        }
+
+
+        if (
+            idEditant !== null
+        ) {
+
+            alert(
+                "✅ Quarteta editada correctament"
+            );
+
+        } else {
+
+            alert(
+                "✅ Quarteta guardada correctament"
+            );
+
+        }
+
+
+        idEditant = null;
+
+
+        tancarFormulari();
+
+
+        await cargarDatos();
+
+
+    } catch (err) {
+
+        console.error(
+            "❌ Error guardant:",
+            err
+        );
+
+
+        alert(
+            "❌ No s'ha pogut guardar la quarteta."
+        );
+
+    }
+
+}
+
+
+// =========================================================
+// BORRAR QUARTETA
+// =========================================================
+
+async function borrarQuarteta(id) {
+
+    const d =
+        datos.find(
+            q =>
+                String(q.id) ===
+                String(id)
+        );
+
+
+    if (!d) {
+
+        return;
+
+    }
+
+
+    const confirmar =
+        confirm(
+            "Segur que vols borrar esta quarteta?\n\n" +
+            d.quarteta
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
     }
 
 
@@ -316,43 +1132,50 @@ async function guardarQuarteta() {
 
         const url =
             API_URL +
-            "?action=afegir" +
-            "&quarteta=" + encodeURIComponent(quarteta) +
-            "&tema=" + encodeURIComponent(tema) +
-            "&subtema=" + encodeURIComponent(subtema);
 
-        const res = await fetch(url);
-        const data = await res.json();
+            "?action=borrar" +
 
-
-        if (!data.ok) {
-            throw new Error(
-                data.error || "No s'ha pogut guardar"
+            "&id=" +
+            encodeURIComponent(
+                id
             );
+
+
+        const res =
+            await fetch(url);
+
+
+        const resposta =
+            await res.json();
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                resposta.error ||
+                "No s'ha pogut borrar"
+            );
+
         }
 
-
-        alert("✅ Quarteta guardada correctament");
-
-
-        document.getElementById("novaQuarteta").value = "";
-        document.getElementById("nouTema").value = "";
-        document.getElementById("altreTema").value = "";
-        document.getElementById("altreTema").style.display = "none";
-        document.getElementById("nouSubtema").value = "";
-
-
-        tancarFormulari();
 
         await cargarDatos();
 
 
     } catch (err) {
 
-        console.error("❌ Error guardant:", err);
+        console.error(
+            "❌ Error borrant:",
+            err
+        );
 
-        alert("❌ No s'ha pogut guardar la quarteta.");
+
+        alert(
+            "❌ No s'ha pogut borrar la quarteta."
+        );
+
     }
+
 }
 
 
@@ -360,11 +1183,19 @@ async function guardarQuarteta() {
 // INICI
 // =========================================================
 
-window.addEventListener("DOMContentLoaded", async () => {
+window.addEventListener(
+    "DOMContentLoaded",
+    async () => {
 
-    await cargarDatos();
+        await cargarDatos();
 
-    canviarVista("home");
 
-    mostrarAleatoria();
-});
+        canviarVista(
+            "home"
+        );
+
+
+        mostrarAleatoria();
+
+    }
+);
