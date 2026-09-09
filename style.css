@@ -109,26 +109,28 @@ button:active {
 }
 
 
-/* =========================================================
-   QUARTETA ALEATÒRIA
-========================================================= */
+/* 🔥 CARD PRINCIPAL */
 
 .card {
+    background: white;
+
     padding: 20px;
 
-    background: var(--surface);
+    border-radius: 16px;
 
-    border-radius: var(--radius-large);
-
-    box-shadow: var(--shadow-card);
-
-    line-height: 1.6;
-
-    white-space: pre-line;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 
     font-size: 18px;
 }
 
+
+.card p {
+    margin: 6px 0 0 0;
+
+    line-height: 1.6;
+
+    white-space: pre-line;
+}
 
 /* =========================================================
    LLISTAT
