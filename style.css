@@ -278,28 +278,31 @@ select {
     appearance: none;
     -webkit-appearance: none;
 
-    border: 1px solid var(--border);
+    border: 1px solid var(--primary);
     border-radius: var(--radius-medium);
 
     outline: none;
 
-    background: var(--surface);
-
-    color: var(--text);
+    background: var(--primary);
+    color: white;
 
     cursor: pointer;
 
     box-shadow: var(--shadow-soft);
+
+    font-weight: 600;
 }
 
 .selector-tema-compacte select {
     height: 46px;
 
-    padding: 0 30px 0 12px;
+    padding: 0 12px;
 
     font-size: 14px;
-}
 
+    text-align: center;
+    text-align-last: center;
+}
 
 
 /* =========================================================
@@ -1346,53 +1349,134 @@ function canviarTemaNou() {
 
 }
 
+/* =========================================================
+   MENÚ DE TRES PUNTS DE CADA QUARTETA
+========================================================= */
 
-// =========================================================
-// MENÚ DE TRES PUNTS
-// =========================================================
-
-function obrirMenuQuarteta(
-    event,
-    id
-) {
-
-    event.stopPropagation();
-
-
-    const menu =
-        document.getElementById(
-            "menu-" + id
-        );
-
-
-    if (!menu) {
-        return;
-    }
-
-
-    document
-        .querySelectorAll(
-            ".opcions-quarteta"
-        )
-        .forEach(m => {
-
-            if (m !== menu) {
-
-                m.classList.remove(
-                    "obert"
-                );
-
-            }
-
-        });
-
-
-    menu.classList.toggle(
-        "obert"
-    );
-
+.item {
+    position: relative;
 }
 
+
+/* CONTENIDOR DELS TRES PUNTS */
+
+.menu-quarteta {
+    position: absolute;
+
+    top: 6px;
+    right: 6px;
+
+    z-index: 20;
+}
+
+
+/* BOTÓ ⋮ */
+
+.boto-menu-quarteta {
+    width: 32px;
+    height: 32px;
+
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: var(--text-soft);
+
+    font-size: 24px;
+    font-weight: normal;
+
+    line-height: 1;
+
+    box-shadow: none;
+}
+
+
+.boto-menu-quarteta:hover,
+.boto-menu-quarteta:active {
+    background: #f0f2f0;
+
+    color: var(--text);
+}
+
+
+/* MENÚ EDITAR / BORRAR */
+
+.opcions-quarteta {
+    position: absolute;
+
+    top: 34px;
+    right: 0;
+
+    display: none;
+
+    width: 130px;
+
+    padding: 5px;
+
+    background: white;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    box-shadow:
+        0 5px 18px
+        rgba(0, 0, 0, 0.16);
+
+    z-index: 100;
+}
+
+
+/* NOMÉS ES MOSTRA QUAN PREMEM ⋮ */
+
+.opcions-quarteta.obert {
+    display: block;
+}
+
+
+/* BOTONS DEL MENÚ */
+
+.opcions-quarteta button {
+    width: 100%;
+
+    margin: 0;
+    padding: 9px 10px;
+
+    display: block;
+
+    border: none;
+    border-radius: 7px;
+
+    background: white;
+
+    color: var(--text);
+
+    text-align: left;
+
+    font-size: 14px;
+    font-weight: normal;
+
+    box-shadow: none;
+}
+
+
+.opcions-quarteta button:hover,
+.opcions-quarteta button:active {
+    background: #f2f4f2;
+}
+
+
+/* BORRAR EN ROIG SUAU */
+
+.opcions-quarteta .opcio-borrar {
+    color: #a04f4f;
+}
 
 // =========================================================
 // TANCAR MENÚ TOCANT FORA
