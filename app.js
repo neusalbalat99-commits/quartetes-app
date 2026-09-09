@@ -7,11 +7,15 @@ const API_URL =
 
 let datos = [];
 
-// ----------------------
-// CARREGAR DADES (JSON)
-// ----------------------
+
+// =========================================================
+// CARREGAR DADES
+// =========================================================
+
 async function cargarDatos() {
+
     try {
+
         console.log("▶️ carregant API...");
 
         const res = await fetch(API_URL);
@@ -32,12 +36,26 @@ async function cargarDatos() {
 
         console.log("✅ OK:", datos.length);
 
-       function omplirTemes() {
+        omplirTemes();
+        actualitzarLlista();
+
+    } catch (err) {
+
+        console.error("❌ ERROR:", err);
+    }
+}
+
+
+// =========================================================
+// OMPLIR TEMES
+// =========================================================
+
+function omplirTemes() {
 
     const temes = [...new Set(
         datos
             .map(d => (d.tema || "").trim())
-            .filter(t => t !== "")
+            .filter(Boolean)
     )].sort((a, b) => a.localeCompare(b));
 
 
@@ -50,9 +68,9 @@ async function cargarDatos() {
 
         filtroTema.innerHTML =
             `<option value="">Tema</option>` +
-            temes.map(tema =>
-                `<option value="${tema}">${tema}</option>`
-            ).join("");
+            temes
+                .map(tema => `<option value="${tema}">${tema}</option>`)
+                .join("");
 
         if (temes.includes(temaSeleccionat)) {
             filtroTema.value = temaSeleccionat;
@@ -65,53 +83,29 @@ async function cargarDatos() {
 
     if (nouTema) {
 
-        nouTema.innerHTML =
-            `<option value="">Tria un tema</option>` +
-            temes.map(tema =>
-                `<option value="${tema}">${tema}</option>`
-            ).join("") +
-            `<option value="__altre__">➕ Altre tema</option>`;
-    }
-}
-
-    // TEMA DEL FORMULARI
-    const nouTema = document.getElementById("nouTema");
-
-    if (nouTema) {
+        const temaSeleccionat = nouTema.value;
 
         nouTema.innerHTML =
             `<option value="">Tria un tema</option>` +
             temes
-                .map(t => `<option value="${t}">${t}</option>`)
+                .map(tema => `<option value="${tema}">${tema}</option>`)
                 .join("") +
             `<option value="__altre__">➕ Altre tema</option>`;
+
+        if (
+            temes.includes(temaSeleccionat) ||
+            temaSeleccionat === "__altre__"
+        ) {
+            nouTema.value = temaSeleccionat;
+        }
     }
 }
-        actualitzarLlista();
 
-    } catch (err) {
-        console.error("❌ ERROR:", err);
-    }
-}
 
-// ----------------------
-// OMPLIR FILTRE TEMES
-// ----------------------
-function omplirTemes() {
+// =========================================================
+// QUARTETA ALEATÒRIA
+// =========================================================
 
-    const select = document.getElementById("filtroTema");
-    if (!select) return;
-
-    const temes = [...new Set(datos.map(d => d.tema).filter(Boolean))];
-
-    select.innerHTML =
-        `<option value="">Tots els temes</option>` +
-        temes.map(t => `<option value="${t}">${t}</option>`).join("");
-}
-
-// ----------------------
-// ALEATORI
-// ----------------------
 function mostrarAleatoria() {
 
     if (!datos.length) return;
@@ -119,28 +113,36 @@ function mostrarAleatoria() {
     const r = datos[Math.floor(Math.random() * datos.length)];
 
     document.getElementById("resultado").innerHTML = `
-        <div class="card">
-            <div class="tema">${r.tema || ""}</div>
-            <div class="subtema">${r.subtema || ""}</div>
-            <p>${r.quarteta || ""}</p>
-        </div>
+        <div class="tema">${r.tema || ""}</div>
+        <div class="subtema">${r.subtema || ""}</div>
+        <p>${r.quarteta || ""}</p>
     `;
 }
 
-// ----------------------
-// BUSCAR + FILTRE
-// ----------------------
+
+// =========================================================
+// BUSCADOR + FILTRE
+// =========================================================
+
 function actualitzarLlista() {
 
-    if (!datos.length) return;
+    if (!datos.length) {
+        document.getElementById("lista").innerHTML = "";
+        return;
+    }
 
-    const text = (document.getElementById("busqueda").value || "")
+    const text = (
+        document.getElementById("busqueda")?.value || ""
+    )
         .trim()
         .toLowerCase();
 
-    const tema = (document.getElementById("filtroTema").value || "")
+    const tema = (
+        document.getElementById("filtroTema")?.value || ""
+    )
         .trim()
         .toLowerCase();
+
 
     const filtrats = datos.filter(d => {
 
@@ -150,23 +152,29 @@ function actualitzarLlista() {
             (d.subtema || "").toLowerCase().includes(text);
 
         const matchTema =
-            !tema || (d.tema || "").trim().toLowerCase() === tema;
+            !tema ||
+            (d.tema || "").trim().toLowerCase() === tema;
 
         return matchText && matchTema;
     });
 
-    document.getElementById("lista").innerHTML = filtrats.map(d => `
-        <div class="item">
-            <div class="tema">${d.tema || ""}</div>
-            <div class="subtema">${d.subtema || ""}</div>
-            <p>${d.quarteta || ""}</p>
-        </div>
-    `).join("");
+
+    document.getElementById("lista").innerHTML = filtrats
+        .map(d => `
+            <div class="item">
+                <div class="tema">${d.tema || ""}</div>
+                <div class="subtema">${d.subtema || ""}</div>
+                <p>${d.quarteta || ""}</p>
+            </div>
+        `)
+        .join("");
 }
 
-// ----------------------
+
+// =========================================================
 // VISTES
-// ----------------------
+// =========================================================
+
 function canviarVista(vista) {
 
     document.querySelectorAll(".view").forEach(v => {
@@ -174,31 +182,41 @@ function canviarVista(vista) {
     });
 
     const el = document.getElementById(vista);
-    if (el) el.classList.add("active");
+
+    if (el) {
+        el.classList.add("active");
+    }
 }
 
-// ----------------------
-// INICI
-// ----------------------
-window.addEventListener("DOMContentLoaded", async () => {
 
-    await cargarDatos();
-
-    canviarVista("home");
-    mostrarAleatoria();
-});
-
-// ----------------------
+// =========================================================
 // FORMULARI NOVA QUARTETA
-// ----------------------
+// =========================================================
 
 function mostrarFormulari() {
 
-    document.getElementById("zonaLlistat").style.display = "none";
+    const zonaLlistat =
+        document.getElementById("zonaLlistat");
 
-    document.getElementById("formulariQuarteta").style.display = "block";
+    const formulari =
+        document.getElementById("formulariQuarteta");
 
-    document.getElementById("botoAfegirQuarteta").style.display = "none";
+    const botoAfegir =
+        document.getElementById("botoAfegirQuarteta");
+
+
+    if (zonaLlistat) {
+        zonaLlistat.style.display = "none";
+    }
+
+    if (formulari) {
+        formulari.style.display = "block";
+    }
+
+    if (botoAfegir) {
+        botoAfegir.style.display = "none";
+    }
+
 
     window.scrollTo({
         top: 0,
@@ -206,19 +224,43 @@ function mostrarFormulari() {
     });
 }
 
+
 function tancarFormulari() {
 
-    document.getElementById("formulariQuarteta").style.display = "none";
+    const zonaLlistat =
+        document.getElementById("zonaLlistat");
 
-    document.getElementById("zonaLlistat").style.display = "block";
+    const formulari =
+        document.getElementById("formulariQuarteta");
 
-    document.getElementById("botoAfegirQuarteta").style.display = "flex";
+    const botoAfegir =
+        document.getElementById("botoAfegirQuarteta");
+
+
+    if (formulari) {
+        formulari.style.display = "none";
+    }
+
+    if (zonaLlistat) {
+        zonaLlistat.style.display = "block";
+    }
+
+    if (botoAfegir) {
+        botoAfegir.style.display = "flex";
+    }
 }
+
 
 function canviarTemaNou() {
 
-    const select = document.getElementById("nouTema");
-    const altre = document.getElementById("altreTema");
+    const select =
+        document.getElementById("nouTema");
+
+    const altre =
+        document.getElementById("altreTema");
+
+    if (!select || !altre) return;
+
 
     if (select.value === "__altre__") {
 
@@ -231,6 +273,11 @@ function canviarTemaNou() {
         altre.value = "";
     }
 }
+
+
+// =========================================================
+// GUARDAR QUARTETA
+// =========================================================
 
 async function guardarQuarteta() {
 
@@ -307,3 +354,17 @@ async function guardarQuarteta() {
         alert("❌ No s'ha pogut guardar la quarteta.");
     }
 }
+
+
+// =========================================================
+// INICI
+// =========================================================
+
+window.addEventListener("DOMContentLoaded", async () => {
+
+    await cargarDatos();
+
+    canviarVista("home");
+
+    mostrarAleatoria();
+});
