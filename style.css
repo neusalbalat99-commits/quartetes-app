@@ -1,192 +1,777 @@
 :root {
     --primary: #a8d48c;
+    --primary-dark: #8fbe73;
+
+    --background: #f4f6f8;
+    --surface: #ffffff;
+
+    --text: #222222;
+    --text-soft: #666666;
+    --text-light: #999999;
+
+    --border: #e1e5e8;
+
+    --radius-small: 10px;
+    --radius-medium: 14px;
+    --radius-large: 16px;
+
+    --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   GENERAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
 }
 
 body {
     margin: 0;
+
     font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    padding-bottom: 70px;
+
+    color: var(--text);
+
+    background: var(--background);
+
+    padding-bottom: 80px;
 }
 
-/* 🔥 TÍTOL */
+
+/* =========================================================
+   TÍTOL
+========================================================= */
+
 .title {
     text-align: center;
+
     font-size: 22px;
+
     letter-spacing: 3px;
+
     text-transform: uppercase;
+
     font-weight: 800;
+
     margin: 15px 0;
+
     color: var(--primary);
 }
 
-/* 🔥 BOTONS */
+
+/* =========================================================
+   BOTONS GENERALS
+========================================================= */
+
 button {
     padding: 10px 14px;
+
     border: none;
+
     background: var(--primary);
+
     color: white;
-    border-radius: 10px;
+
+    border-radius: var(--radius-small);
+
     cursor: pointer;
+
+    font-family: inherit;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
 }
 
-/* 🔥 VISTES */
+button:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================================================
+   VISTES
+========================================================= */
+
 .view {
     display: none;
+
     padding: 15px;
+
+    max-width: 900px;
+
+    margin: 0 auto;
 }
 
 .view.active {
     display: block;
 }
 
-/* 🔥 CARD PRINCIPAL */
+
+/* =========================================================
+   CARD PRINCIPAL
+========================================================= */
+
 .card {
-    background: white;
+    background: var(--surface);
+
     padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-card);
+
     line-height: 1.6;
+
     white-space: pre-line;
+
     font-size: 18px;
 }
 
-/* 🔥 LLISTAT */
+
+/* =========================================================
+   LLISTAT
+========================================================= */
+
 .grid {
     display: grid;
+
     gap: 10px;
 }
 
 .item {
-    background: white;
+    background: var(--surface);
+
     padding: 12px;
+
     border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+
     white-space: pre-line;
-    transition: transform 0.2s;
+
+    transition: transform 0.2s ease;
 }
 
 .item:hover {
-    transform: scale(1.02);
+    transform: scale(1.01);
 }
 
-/* 🔥 TEMA / SUBTEMA */
+
+/* =========================================================
+   TEMA / SUBTEMA
+========================================================= */
+
 .tema {
     font-size: 11px;
+
     letter-spacing: 2px;
+
     text-transform: uppercase;
-    color: #666;
+
+    color: var(--text-soft);
+
     font-weight: 600;
+
     margin-bottom: 3px;
 }
 
 .subtema {
     font-size: 10px;
-    color: #999;
+
+    color: var(--text-light);
+
     font-style: italic;
+
     margin-bottom: 6px;
 }
 
-/* 🔥 INPUT */
+
+/* =========================================================
+   INPUTS GENERALS
+========================================================= */
+
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
 input {
     width: 100%;
+
     padding: 10px;
+
     border-radius: 12px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
+
+    border: 1px solid var(--border);
+
     outline: none;
 }
 
-/* 🔥 MENÚ INFERIOR */
+
+/* =========================================================
+   BARRA DE CERCA I FILTRES
+========================================================= */
+
+.barra-eines {
+    margin-bottom: 22px;
+}
+
+
+/* BUSCADOR */
+
+.cerca {
+    display: flex;
+
+    align-items: center;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-medium);
+
+    padding: 0 14px;
+
+    margin-bottom: 10px;
+
+    box-shadow: var(--shadow-soft);
+}
+
+.icona-cerca {
+    font-size: 21px;
+
+    margin-right: 8px;
+
+    color: var(--text-light);
+}
+
+.cerca input {
+    flex: 1;
+
+    min-width: 0;
+
+    border: none;
+
+    border-radius: 0;
+
+    outline: none;
+
+    background: transparent;
+
+    padding: 14px 0;
+
+    margin: 0;
+
+    font-size: 16px;
+}
+
+
+/* FILTRE + BOTÓ AFEGIR */
+
+.fila-filtres {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+/* SELECTOR TEMA */
+
+.selector-tema {
+    position: relative;
+
+    flex: 1;
+}
+
+.selector-tema select {
+    width: 100%;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-medium);
+
+    padding: 13px 44px 13px 14px;
+
+    font-size: 15px;
+
+    color: var(--text);
+
+    outline: none;
+
+    cursor: pointer;
+
+    box-shadow: var(--shadow-soft);
+}
+
+.selector-tema::after {
+    content: "⌄";
+
+    position: absolute;
+
+    right: 16px;
+
+    top: 50%;
+
+    transform: translateY(-55%);
+
+    font-size: 20px;
+
+    color: var(--text-soft);
+
+    pointer-events: none;
+}
+
+
+/* BOTÓ + */
+
+.boto-afegir {
+    width: 48px;
+
+    height: 48px;
+
+    min-width: 48px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 29px;
+
+    font-weight: 300;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.boto-afegir:hover {
+    background: var(--primary-dark);
+}
+
+.boto-afegir:active {
+    transform: scale(0.93);
+}
+
+
+/* =========================================================
+   FORMULARI NOVA QUARTETA
+========================================================= */
+
+.formulari-quarteta {
+    background: var(--surface);
+
+    border-radius: var(--radius-large);
+
+    padding: 18px;
+
+    margin-bottom: 22px;
+
+    box-shadow: var(--shadow-card);
+}
+
+
+/* CAPÇALERA FORMULARI */
+
+.cap-formulari {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 16px;
+}
+
+.cap-formulari h2 {
+    margin: 0;
+
+    font-size: 20px;
+}
+
+
+/* BOTÓ X */
+
+.tancar-formulari {
+    background: transparent;
+
+    color: var(--text-soft);
+
+    padding: 4px 8px;
+
+    font-size: 27px;
+
+    border-radius: 50%;
+}
+
+.tancar-formulari:hover {
+    background: #f1f1f1;
+}
+
+
+/* CAMPS FORMULARI */
+
+.formulari-quarteta textarea,
+.formulari-quarteta input,
+.formulari-quarteta select {
+    width: 100%;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: #fafafa;
+
+    padding: 13px;
+
+    margin-bottom: 11px;
+
+    font-size: 16px;
+
+    color: var(--text);
+
+    outline: none;
+}
+
+.formulari-quarteta textarea {
+    resize: vertical;
+
+    min-height: 130px;
+
+    line-height: 1.5;
+}
+
+.formulari-quarteta textarea:focus,
+.formulari-quarteta input:focus,
+.formulari-quarteta select:focus {
+    border-color: var(--primary);
+
+    background: white;
+
+    box-shadow: 0 0 0 2px rgba(168, 212, 140, 0.16);
+}
+
+
+/* BOTONS FORMULARI */
+
+.botons-formulari {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 4px;
+}
+
+.botons-formulari button {
+    flex: 1;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+}
+
+.boto-guardar {
+    background: var(--primary);
+
+    color: white;
+}
+
+.boto-guardar:hover {
+    background: var(--primary-dark);
+}
+
+.boto-cancelar {
+    background: white;
+
+    color: var(--text-soft);
+
+    border: 1px solid var(--border);
+}
+
+
+/* =========================================================
+   BOTÓ RANDOM
+========================================================= */
+
+.random-btn {
+    display: block;
+
+    margin: 10px auto 15px auto;
+
+    background: var(--primary);
+
+    color: white;
+
+    padding: 10px 16px;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+
+    box-shadow: var(--shadow-soft);
+}
+
+.random-btn:hover {
+    background: var(--primary-dark);
+}
+
+
+/* =========================================================
+   CALENDARI
+========================================================= */
+
+.cap-calendari {
+    margin-bottom: 16px;
+}
+
+.cap-calendari h2 {
+    margin: 0 0 5px 0;
+
+    font-size: 22px;
+}
+
+.cap-calendari p {
+    margin: 0;
+
+    color: var(--text-soft);
+
+    font-size: 14px;
+
+    line-height: 1.4;
+}
+
+.contenidor-calendari {
+    width: 100%;
+
+    background: var(--surface);
+
+    border-radius: var(--radius-large);
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow-card);
+}
+
+.google-calendar {
+    display: block;
+
+    width: 100%;
+
+    height: 620px;
+
+    border: none;
+}
+
+
+/* =========================================================
+   MENÚ INFERIOR
+========================================================= */
+
 .bottom-nav {
     position: fixed;
+
     bottom: 0;
+
     left: 0;
+
     right: 0;
+
     height: 60px;
-    background: white;
+
+    background: var(--surface);
+
     display: flex;
+
     justify-content: space-around;
+
     align-items: center;
-    border-top: 1px solid #ddd;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+
+    border-top: 1px solid var(--border);
+
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+
+    z-index: 100;
 }
 
 .bottom-nav button {
     background: none;
+
     border: none;
+
+    color: var(--text);
+
     font-size: 22px;
+
     cursor: pointer;
+
+    padding: 10px 18px;
 }
 
 .bottom-nav button:active {
     transform: scale(0.9);
 }
 
-/* 🔥 BOTÓ RANDOM */
-.random-btn {
-    display: block;
-    margin: 10px auto 15px auto;
-    background: var(--primary);
-    color: white;
-    padding: 10px 16px;
-    border-radius: 12px;
-    font-size: 14px;
-}
 
 /* =========================================================
-   📱 A PARTIR D'ACÍ: MÒBIL (SEGUR, NO TOCA DESKTOP)
+   MÒBIL
 ========================================================= */
 
 @media (max-width: 768px) {
 
     body {
         padding: 10px;
-        padding-bottom: 80px;
+
+        padding-bottom: 85px;
     }
 
-    /* TÍTOL més compacte */
+
+    /* TÍTOL */
+
     .title {
         font-size: 18px;
+
         letter-spacing: 2px;
+
         margin: 10px 0;
     }
 
-    /* CARDS més còmodes */
+
+    /* VISTES */
+
+    .view {
+        padding: 10px 5px;
+    }
+
+
+    /* CARD PRINCIPAL */
+
     .card {
         font-size: 16px;
+
         padding: 15px;
+
         border-radius: 14px;
     }
 
-    /* LLISTA 1 columna */
+
+    /* LLISTA */
+
     .grid {
         grid-template-columns: 1fr;
     }
 
     .item {
         font-size: 14px;
+
         padding: 12px;
     }
 
-    /* INPUT més usable */
-    input {
+
+    /* BUSCADOR */
+
+    .cerca input {
         font-size: 16px;
-        padding: 12px;
+
+        padding: 13px 0;
     }
 
-    /* BOTONS més tàctils */
-    button {
+
+    /* FILTRE */
+
+    .selector-tema select {
         font-size: 16px;
-        padding: 12px;
+
+        min-height: 48px;
     }
 
-    /* MENÚ inferior més segur */
+
+    /* BOTÓ + */
+
+    .boto-afegir {
+        width: 48px;
+
+        height: 48px;
+
+        min-width: 48px;
+    }
+
+
+    /* FORMULARI */
+
+    .formulari-quarteta {
+        padding: 15px;
+    }
+
+    .formulari-quarteta textarea,
+    .formulari-quarteta input,
+    .formulari-quarteta select {
+        font-size: 16px;
+    }
+
+
+    /* CALENDARI */
+
+    .google-calendar {
+        height: 560px;
+    }
+
+
+    /* MENÚ INFERIOR */
+
     .bottom-nav {
         height: 65px;
     }
 
     .bottom-nav button {
         font-size: 22px;
+    }
+}
+
+
+/* =========================================================
+   MÒBILS MOLT ESTRETS
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .fila-filtres {
+        gap: 8px;
+    }
+
+    .selector-tema select {
+        padding-left: 12px;
+
+        padding-right: 38px;
+
+        font-size: 15px;
+    }
+
+    .botons-formulari {
+        flex-direction: column;
+    }
+
+    .google-calendar {
+        height: 520px;
     }
 }
