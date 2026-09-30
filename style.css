@@ -975,3 +975,33 @@ select {
   .item p { font-size: 16px; }
   .cap-seccio h2 { font-size: 24px; }
 }
+
+/* Identitat RESSÒ: signatura discreta a totes les pantalles. */
+.marca-resso {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 53px;
+    margin: 3px auto 0;
+}
+.marca-resso img {
+    width: 105px;
+    height: auto;
+    max-height: 53px;
+    object-fit: contain;
+}
+/* El nom de l'app només apareix a la pantalla de la quarteta. */
+#home.active { padding-top: 5px; }
+.titol-inici {
+    margin: 6px 0 19px;
+    font-family: 'Nunito', Arial, sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+}
+.bottom-nav button.seleccionat .icona-linia { stroke: #4b7c39; }
+@media (max-width: 768px) {
+    .marca-resso { height: 47px; }
+    .marca-resso img { width: 94px; max-height: 47px; }
+    .titol-inici { font-size: 17px; letter-spacing: 1.2px; }
+}
