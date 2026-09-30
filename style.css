@@ -944,3 +944,34 @@ select {
 .bottom-nav button.seleccionat { color: #4b7c39; background: #f2f8ed; }
 @media (max-width: 360px) { .graella-contingut { gap: 8px; } .cos-fitxa { padding: 10px; } .cos-fitxa h3 { font-size: 14px; } .bottom-nav button small { font-size: 9px; } }
 @media (min-width: 700px) { .graella-contingut { grid-template-columns: repeat(3, minmax(0, 1fr)); } .portada-material { aspect-ratio: 9 / 11; } }
+
+/* Ajustos visuals: només capçaleres, icones i lectura. */
+.cap-seccio h2 {
+    font-family: 'Nunito', Arial, sans-serif;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+.cap-seccio { margin-bottom: 19px; }
+.icona-linia { width: 24px; height: 24px; display: inline-block; vertical-align: middle; }
+.bottom-nav .icona-linia { width: 24px; height: 24px; }
+.bottom-nav button { color: #667064; }
+.bottom-nav button.seleccionat { color: #4b7c39; }
+.random-btn { display: flex; align-items: center; gap: 8px; }
+.random-btn .icona-linia { width: 19px; height: 19px; }
+#home.active { min-height: 0; justify-content: flex-start; padding-top: 28px; }
+#resultado { padding: 21px 22px; }
+#resultado p { font-size: 21px; line-height: 1.6; max-width: 31ch; margin: 12px auto 0; width: fit-content; }
+.item p { font-size: 16px; line-height: 1.55; }
+.portada-material.amb-portada { background: #e5efdf; overflow: hidden; }
+.miniatura-pdf { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.portada-material.amb-portada .portada-icona { display: none; }
+.portada-material.amb-portada .portada-tipus { position: absolute; right: 8px; bottom: 8px; }
+@media (max-width: 420px) {
+  #resultado { padding: 19px 17px; }
+  #resultado p { font-size: 19px; }
+  .item p { font-size: 16px; }
+  .cap-seccio h2 { font-size: 24px; }
+}

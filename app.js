@@ -1287,7 +1287,11 @@ function pintarMaterials(dades) {
         const card = element("button", "fitxa-contingut fitxa-material");
         card.type = "button";
         const portada = element("div", "portada-material");
-        portada.append(element("span", "portada-icona", "📖"), element("span", "portada-tipus", d.tipus || "PDF"));
+        portada.append(element("span", "portada-icona", "▤"), element("span", "portada-tipus", d.tipus || "PDF"));
+        const pdfUrl = urlPDFMaterial(d);
+        if (pdfUrl && window.pdfjsLib) {
+            crearPortadaPDF(portada, pdfUrl);
+        }
         const cos = element("div", "cos-fitxa");
         cos.append(element("small", "etiqueta-fitxa", d.categoria || "Material"), element("h3", "", d.titol || "Sense títol"));
         if (d.descripcio) cos.append(element("p", "", d.descripcio));
@@ -1297,8 +1301,35 @@ function pintarMaterials(dades) {
     });
 }
 
-async function obrirMaterial(d) {
+function urlPDFMaterial(d) {
+    // Fitxer de prova inclòs a GitHub; preval sobre l'enllaç antic de Drive.
+    const nom = String(d.titol || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    if (nom.includes("guitarro")) return new URL("materials/1_Guitarro.pdf", document.baseURI).href;
     const url = urlSegura(d.url);
+    // Els PDFs de Drive no es poden llegir directament per CORS.
+    return idDrive(url) ? "" : url;
+}
+
+async function crearPortadaPDF(contenidor, url) {
+    try {
+        const doc = await window.pdfjsLib.getDocument({url}).promise;
+        const page = await doc.getPage(1);
+        const viewport = page.getViewport({scale: 1});
+        const escala = 320 / viewport.width;
+        const vista = page.getViewport({scale: escala});
+        const canvas = document.createElement("canvas");
+        canvas.className = "miniatura-pdf";
+        canvas.width = Math.round(vista.width);
+        canvas.height = Math.round(vista.height);
+        await page.render({canvasContext: canvas.getContext("2d"), viewport: vista}).promise;
+        contenidor.prepend(canvas);
+        contenidor.classList.add("amb-portada");
+        await doc.destroy();
+    } catch (error) { console.warn("No s'ha pogut generar la portada", error); }
+}
+
+async function obrirMaterial(d) {
+    const url = urlPDFMaterial(d) || urlSegura(d.url);
     if (!url) { alert("Este material encara no té un enllaç vàlid al Sheets."); return; }
     document.getElementById("bibliotecaMaterials").hidden = true;
     document.getElementById("lectorMaterials").hidden = false;
@@ -1316,8 +1347,8 @@ async function obrirMaterial(d) {
     try {
         window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
         const drive = idDrive(url);
-        const origen = drive ? "https://drive.google.com/uc?export=download&id=" + encodeURIComponent(drive) : url;
-        const pdf = await window.pdfjsLib.getDocument({ url: origen }).promise;
+        if (drive) throw new Error("Drive no admet lectura directa; cal allotjar el PDF a GitHub.");
+        const pdf = await window.pdfjsLib.getDocument({ url }).promise;
         if (token !== tokenRender) return;
         pdfActual = pdf;
         paginaActual = 1;
@@ -1325,7 +1356,7 @@ async function obrirMaterial(d) {
     } catch (err) {
         if (token !== tokenRender) return;
         console.warn("El servidor del PDF no permet el lector integrat:", err);
-        estat.textContent = "Google Drive no permet llegir este PDF directament des de l'app. Pots obrir-lo amb el botó «Obrir PDF original».";
+        estat.textContent = "No es pot llegir este PDF dins de l’app. Puja’l a GitHub i canvia l’enllaç del Sheets per l’adreça publicada, o obri el document original.";
         actualitzarControlsLector();
     }
 }
@@ -1468,3 +1499,15 @@ function pintarEventsDia() {
         zona.append(card);
     });
 }
+
+// Passar pàgina amb el dit dins del lector PDF.
+let iniciGestPDF = null;
+document.getElementById("lectorPagina")?.addEventListener("touchstart", e => {
+    iniciGestPDF = e.touches[0]?.clientX ?? null;
+}, {passive: true});
+document.getElementById("lectorPagina")?.addEventListener("touchend", e => {
+    if (iniciGestPDF === null) return;
+    const final = e.changedTouches[0]?.clientX;
+    if (final !== undefined && Math.abs(final - iniciGestPDF) > 65) passarPagina(final < iniciGestPDF ? 1 : -1);
+    iniciGestPDF = null;
+}, {passive: true});
