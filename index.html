@@ -14,7 +14,7 @@
 
     <link
         rel="stylesheet"
-        href="style.css?v=21"
+        href="style.css?v=25"
     >
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,7 @@
 
 
     <header class="marca-resso" aria-label="Associació RESSÒ">
-        <img src="logo-resso.png?v=21" alt="RESSÒ" width="132" height="86">
+        <img src="logo-resso.svg?v=25" alt="RESSÒ" width="132" height="86">
     </header>
 
 
@@ -219,6 +219,12 @@
             <div id="filtresMaterials" class="filtres-contingut"></div>
             <div id="llistaMaterials" class="graella-contingut"><p>Carregant materials…</p></div>
         </div>
+        <aside class="llicencia-resso" aria-label="Llicència dels materials didàctics">
+            <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ca" target="_blank" rel="license noopener noreferrer" class="llicencia-insignia" aria-label="Llicència Creative Commons Reconeixement NoComercial SenseObresDerivades 4.0">
+                <img src="https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png" alt="Creative Commons BY-NC-ND 4.0" width="88" height="31" loading="lazy">
+            </a>
+            <p><strong>Materials didàctics de RESSÒ.</strong> Es permet compartir-los íntegrament, amb reconeixement de l'autoria, sense finalitats comercials ni distribuir-ne versions modificades. <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ca" target="_blank" rel="license noopener noreferrer">CC BY-NC-ND 4.0</a>. Els continguts de tercers conserven els seus drets.</p>
+        </aside>
         <div id="lectorMaterials" class="lector-materials" hidden>
             <div class="lector-cap">
                 <button type="button" class="lector-tornar" onclick="tancarLector()">← Materials</button>
@@ -250,6 +256,7 @@
         </div>
         <h3 id="titolDia" class="titol-dia"></h3>
         <div id="eventsDia" class="events-dia" aria-live="polite"></div>
+        <button type="button" class="calendari-actualitzar" onclick="carregarCalendari(true)">↻ Actualitzar agenda</button>
     </section>
 
     <!-- =====================================================
@@ -266,7 +273,7 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="app.js?v=21"></script>
+    <script src="app.js?v=25"></script>
 
 
 </body>

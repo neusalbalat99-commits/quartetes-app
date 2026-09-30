@@ -1031,3 +1031,32 @@ select {
 .marca-resso { height: 62px; }
 .marca-resso img { width: 138px; max-height: 60px; height: auto; display: block; object-fit: contain; }
 @media (max-width: 768px) { .marca-resso { height: 55px; } .marca-resso img { width: 125px; max-height: 53px; } }
+
+/* V22: logo SVG original, data curta i quarteta alineada a l'esquerra. */
+.marca-resso { height: 60px; }
+.marca-resso img { width: 116px; height: 58px; max-height: 58px; object-fit: contain; }
+#resultado .tema { text-align: left; font-size: 15px; letter-spacing: 1px; }
+#resultado .subtema { text-align: left; font-size: 13px; }
+#resultado p { text-align: left; overflow-wrap: break-word; }
+@media (max-width: 420px) { #resultado .tema { font-size: 14px; } }
+
+/* V24: distintiu de drets i logotip sense fons afegit. */
+.marca-resso, .marca-resso img { background: transparent !important; box-shadow: none; }
+.llicencia-resso { margin: 20px 4px 12px; padding: 13px 14px; border: 1px solid #d5e5cd; border-radius: 12px; background: #f7fbf5; text-align: center; }
+.llicencia-insignia { display: inline-block; line-height: 0; }
+.llicencia-insignia img { display: block; }
+.llicencia-resso p { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: #42533c; }
+.llicencia-resso a { color: #356b32; }
+.calendari-actualitzar { display: block; margin: 12px auto 18px; padding: 8px 14px; border: 1px solid #b4d2a8; border-radius: 20px; background: #f6fbf3; color: #356b32; font: inherit; cursor: pointer; }
+
+/* V25 · Ajustos finals de la quarteta i del logotip. */
+#resultado { text-align: left; }
+#resultado .tema { font-size: 17px; text-align: left; line-height: 1.35; }
+#resultado .subtema { font-size: 15px; text-align: left; line-height: 1.4; }
+#resultado p { text-align: left; margin-left: 0; margin-right: 0; }
+.marca-resso { background: transparent !important; border: 0; box-shadow: none; }
+.marca-resso img { background: transparent !important; border: 0; box-shadow: none; object-fit: contain; }
+@media (max-width: 420px) {
+  #resultado .tema { font-size: 16px; }
+  #resultado .subtema { font-size: 14px; }
+}

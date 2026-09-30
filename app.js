@@ -1302,12 +1302,39 @@ function pintarMaterials(dades) {
 }
 
 function urlPDFMaterial(d) {
-    // Fitxer de prova inclòs a GitHub; preval sobre l'enllaç antic de Drive.
-    const nom = String(d.titol || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    if (nom.includes("guitarro")) return new URL("materials/1_Guitarro.pdf", document.baseURI).href;
-    const url = urlSegura(d.url);
-    // Els PDFs de Drive no es poden llegir directament per CORS.
-    return idDrive(url) ? "" : url;
+    // Els quatre PDFs estan allotjats a la carpeta pública materials/ de GitHub Pages.
+    // La ruta es decideix pel títol del registre a Google Sheets.
+    const nom = String(d.titol || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+    const urlOriginal = urlSegura(d.url);
+    let fitxer = "";
+
+    if (nom.includes("gener") || nom.includes("genere")) {
+        fitxer = "4_Géneres.pdf";
+    } else if (nom.includes("guitarro")) {
+        fitxer = "1_Guitarro.pdf";
+    } else if (nom.includes("guitarra")) {
+        fitxer = "2_Guitarra.pdf";
+    } else if (nom.includes("musica") || nom.includes("tradicional") || nom.includes("mt 916")) {
+        fitxer = "3_MT 916.pdf";
+    }
+
+    // Si el títol no coincideix, es pot usar l'ordre del Sheets (1 a 4).
+    if (!fitxer) {
+        const perOrdre = {
+            1: "1_Guitarro.pdf",
+            2: "2_Guitarra.pdf",
+            3: "3_MT 916.pdf",
+            4: "4_Géneres.pdf"
+        };
+        fitxer = perOrdre[Number(d.ordre)] || "";
+    }
+
+    if (fitxer) return new URL("materials/" + encodeURIComponent(fitxer), document.baseURI).href;
+    // Per a futurs materials, admetem URLs de PDF que no siguen de Google Drive.
+    return idDrive(urlOriginal) ? "" : urlOriginal;
 }
 
 async function crearPortadaPDF(contenidor, url) {
@@ -1444,10 +1471,19 @@ function dataLocalISO(data) {
 }
 function dataEvent(event) {
     // Els esdeveniments de dia complet conserven el dia de la data ISO.
-    return event.totElDia ? String(event.inici).slice(0, 10) : dataLocalISO(new Date(event.inici));
+    // CalendarApp retorna les dates de dia complet en UTC. A Espanya,
+    // la mitjanit local pot ser el dia anterior en UTC: no tallem la ISO.
+    if (event.totElDia) {
+        const parts = new Intl.DateTimeFormat("en-GB", {
+            timeZone: "Europe/Madrid", year: "numeric", month: "2-digit", day: "2-digit"
+        }).formatToParts(new Date(event.inici));
+        const valor = tipus => parts.find(p => p.type === tipus)?.value || "";
+        return valor("year") + "-" + valor("month") + "-" + valor("day");
+    }
+    return dataLocalISO(new Date(event.inici));
 }
-async function carregarCalendari() {
-    if (contingutsCarregats.calendari) { pintarCalendari(); return; }
+async function carregarCalendari(forcar = false) {
+    if (!forcar && contingutsCarregats.calendari) { pintarCalendari(); return; }
     const zona = document.getElementById("eventsDia");
     zona.textContent = "Carregant agenda…";
     try {
@@ -1489,7 +1525,7 @@ function pintarCalendari() {
 }
 function pintarEventsDia() {
     const clau = dataLocalISO(diaSeleccionat);
-    document.getElementById("titolDia").textContent = new Intl.DateTimeFormat("ca-ES", { day: "numeric", month: "long", year: "numeric" }).format(diaSeleccionat);
+    document.getElementById("titolDia").textContent = new Intl.DateTimeFormat("ca-ES", { day: "numeric", month: "long" }).format(diaSeleccionat);
     const zona = document.getElementById("eventsDia");
     zona.replaceChildren();
     const events = eventsDades.filter(ev => dataEvent(ev) === clau);
