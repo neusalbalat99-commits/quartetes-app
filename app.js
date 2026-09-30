@@ -1231,7 +1231,7 @@ function element(tag, classe, text) {
 }
 
 async function llegirSeccio(seccio) {
-    const resposta = await fetch(API_URL + "?seccio=" + encodeURIComponent(seccio));
+    const resposta = await fetch(API_URL + "?seccio=" + encodeURIComponent(seccio) + (seccio === "calendari" ? "&_=" + Date.now() : ""), { cache: seccio === "calendari" ? "no-store" : "default" });
     if (!resposta.ok) throw new Error("Error HTTP " + resposta.status);
     const dades = await resposta.json();
     if (!Array.isArray(dades)) throw new Error(dades.error || "Resposta no vàlida");
@@ -1488,6 +1488,7 @@ async function carregarCalendari(forcar = false) {
     zona.textContent = "Carregant agenda…";
     try {
         eventsDades = await llegirSeccio("calendari");
+        console.info("RESSÒ: esdeveniments rebuts de l’API:", eventsDades.length, eventsDades);
         contingutsCarregats.calendari = true;
         pintarCalendari();
     } catch (err) { zona.textContent = "No s'ha pogut carregar el calendari. " + err.message; }
@@ -1525,11 +1526,15 @@ function pintarCalendari() {
 }
 function pintarEventsDia() {
     const clau = dataLocalISO(diaSeleccionat);
-    document.getElementById("titolDia").textContent = new Intl.DateTimeFormat("ca-ES", { day: "numeric", month: "long" }).format(diaSeleccionat);
+    document.getElementById("titolDia").textContent = diaSeleccionat.getDate() + " de " + new Intl.DateTimeFormat("ca-ES", { month: "long" }).format(diaSeleccionat).toLowerCase();
     const zona = document.getElementById("eventsDia");
     zona.replaceChildren();
     const events = eventsDades.filter(ev => dataEvent(ev) === clau);
-    if (!events.length) { zona.append(element("p", "estat-buit", "No hi ha activitats programades per a este dia.")); return; }
+    if (!events.length) {
+        zona.append(element("p", "estat-buit", "No hi ha activitats programades per a este dia."));
+        if (!eventsDades.length) zona.append(element("p", "estat-buit", "L’API no ha retornat cap esdeveniment. Comprova el calendari de RESSÒ i la implementació d’Apps Script."));
+        return;
+    }
     events.forEach(ev => {
         const card = element("article", "event-targeta");
         card.append(element("h4", "", ev.titol || "Activitat"));
