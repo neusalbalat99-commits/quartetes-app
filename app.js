@@ -1463,7 +1463,11 @@ function moureMes(delta) {
 }
 function pintarCalendari() {
     const y = mesVisible.getFullYear(), m = mesVisible.getMonth();
-    document.getElementById("mesActual").textContent = new Intl.DateTimeFormat("ca-ES", { month: "long", year: "numeric" }).format(mesVisible);
+    const capMes = document.getElementById("mesActual");
+    const nomMes = new Intl.DateTimeFormat("ca-ES", { month: "long" }).format(mesVisible);
+    const etiquetaMes = element("span", "calendari-nom-mes", nomMes);
+    const etiquetaAny = element("small", "calendari-any", String(y));
+    capMes.replaceChildren(etiquetaMes, etiquetaAny);
     const zona = document.getElementById("graellaCalendari");
     zona.replaceChildren();
     const primer = (new Date(y, m, 1).getDay() + 6) % 7;
@@ -1477,7 +1481,7 @@ function pintarCalendari() {
         if (datesEvents.has(clau)) bot.classList.add("amb-event");
         if (clau === dataLocalISO(new Date())) bot.classList.add("hui");
         if (clau === dataLocalISO(diaSeleccionat)) bot.classList.add("triat");
-        bot.setAttribute("aria-label", dia + " de " + document.getElementById("mesActual").textContent);
+        bot.setAttribute("aria-label", dia + " de " + nomMes + " de " + y);
         bot.addEventListener("click", () => { diaSeleccionat = data; pintarCalendari(); });
         zona.append(bot);
     }
