@@ -14,7 +14,7 @@
 
     <link
         rel="stylesheet"
-        href="style.css?v=16"
+        href="style.css?v=17"
     >
 
 </head>
@@ -202,71 +202,67 @@
     </div>
 
 
-    <!-- =====================================================
-         CALENDARI
-    ====================================================== -->
+    <!-- NOVES SECCIONS -->
+    <section id="multimedia" class="view">
+        <header class="cap-seccio"><h2>🎧 Escolta</h2><p>Música, vídeos i gravacions tradicionals.</p></header>
+        <div id="filtresMultimedia" class="filtres-contingut"></div>
+        <div id="llistaMultimedia" class="graella-contingut"><p>Carregant continguts…</p></div>
+    </section>
 
-    <div id="calendari" class="view">
-
-        <div class="cap-calendari">
-
-            <h2>
-                Calendari
-            </h2>
-
-            <p>
-                Activitats, trobades i dates destacades.
-            </p>
-
+    <section id="materials" class="view">
+        <header class="cap-seccio"><h2>📖 Aprén</h2><p>Materials per descobrir la música tradicional.</p></header>
+        <div id="bibliotecaMaterials">
+            <div id="filtresMaterials" class="filtres-contingut"></div>
+            <div id="llistaMaterials" class="graella-contingut"><p>Carregant materials…</p></div>
         </div>
-
-
-        <div class="contenidor-calendari">
-
-            <iframe
-                class="google-calendar"
-                src="URL_DEL_TEU_GOOGLE_CALENDAR"
-                frameborder="0"
-                scrolling="no"
-                title="Calendari"
-            ></iframe>
-
+        <div id="lectorMaterials" class="lector-materials" hidden>
+            <div class="lector-cap">
+                <button type="button" class="lector-tornar" onclick="tancarLector()">← Materials</button>
+                <strong id="lectorTitol"></strong>
+            </div>
+            <div id="lectorEstat" class="lector-estat" aria-live="polite"></div>
+            <div class="lector-pagina" id="lectorPagina">
+                <canvas id="lectorCanvas" aria-label="Pàgina del document"></canvas>
+            </div>
+            <div class="lector-controls">
+                <button type="button" id="lectorAnterior" onclick="passarPagina(-1)">‹ Anterior</button>
+                <span id="lectorComptador">– / –</span>
+                <button type="button" id="lectorSeguent" onclick="passarPagina(1)">Següent ›</button>
+            </div>
+            <a id="lectorEnllac" class="enllac-material" target="_blank" rel="noopener noreferrer">Obrir PDF original ↗</a>
         </div>
+    </section>
 
-    </div>
-
+    <section id="calendari" class="view">
+        <header class="cap-seccio"><h2>📅 Calendari</h2><p>Activitats, trobades i música en directe.</p></header>
+        <div class="calendari-targeta">
+            <div class="mes-navegacio">
+                <button type="button" onclick="moureMes(-1)" aria-label="Mes anterior">‹</button>
+                <h3 id="mesActual"></h3>
+                <button type="button" onclick="moureMes(1)" aria-label="Mes següent">›</button>
+            </div>
+            <div class="dies-setmana"><span>Dl</span><span>Dt</span><span>Dc</span><span>Dj</span><span>Dv</span><span>Ds</span><span>Dg</span></div>
+            <div id="graellaCalendari" class="graella-calendari"></div>
+        </div>
+        <h3 id="titolDia" class="titol-dia"></h3>
+        <div id="eventsDia" class="events-dia" aria-live="polite"></div>
+    </section>
 
     <!-- =====================================================
          MENÚ INFERIOR
     ====================================================== -->
 
-    <div class="bottom-nav">
-
-        <button
-            onclick="canviarVista('home')"
-            aria-label="Inici"
-        >
-            🎲
-        </button>
-
-        <button
-            onclick="canviarVista('llistat')"
-            aria-label="Quartetes"
-        >
-            📚
-        </button>
-
-        <button
-            onclick="canviarVista('calendari')"
-            aria-label="Calendari"
-        >
-            📅
-        </button>
-
-    </div>
+    <nav class="bottom-nav" aria-label="Navegació principal">
+        <button type="button" onclick="canviarVista('home')" aria-label="Quarteta"><span>🎲</span><small>Quarteta</small></button>
+        <button type="button" onclick="canviarVista('llistat')" aria-label="Llistat"><span>📚</span><small>Llistat</small></button>
+        <button type="button" onclick="canviarVista('multimedia')" aria-label="Escolta"><span>🎧</span><small>Escolta</small></button>
+        <button type="button" onclick="canviarVista('materials')" aria-label="Aprén"><span>📖</span><small>Aprén</small></button>
+        <button type="button" onclick="canviarVista('calendari')" aria-label="Calendari"><span>📅</span><small>Agenda</small></button>
+    </nav>
 
 
-    <script src="app.js?v=9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="app.js?v=17"></script>
 
 
 </body>

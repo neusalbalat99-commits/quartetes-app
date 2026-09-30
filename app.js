@@ -395,13 +395,15 @@ function canviarVista(vista) {
 
 
     if (el) {
-
-        el.classList.add(
-            "active"
-        );
-
+        el.classList.add("active");
     }
-
+    document.querySelectorAll(".bottom-nav button").forEach(b => {
+        b.classList.toggle("seleccionat", b.getAttribute("onclick")?.includes("'" + vista + "'"));
+    });
+    if (vista === "materials") carregarMaterials();
+    if (vista === "multimedia") carregarMultimedia();
+    if (vista === "calendari") carregarCalendari();
+    if (vista !== "materials") tancarLector();
 }
 
 
@@ -1206,3 +1208,263 @@ window.addEventListener(
 
     }
 );
+
+// =========================================================
+// NOVA VERSIÓ: MATERIALS, MULTIMÈDIA I CALENDARI
+// =========================================================
+
+const contingutsCarregats = { materials: false, multimedia: false, calendari: false };
+let materialsDades = [];
+let multimediaDades = [];
+let eventsDades = [];
+let pdfActual = null;
+let paginaActual = 1;
+let tokenRender = 0;
+let mesVisible = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+let diaSeleccionat = new Date();
+
+function element(tag, classe, text) {
+    const el = document.createElement(tag);
+    if (classe) el.className = classe;
+    if (text !== undefined) el.textContent = String(text);
+    return el;
+}
+
+async function llegirSeccio(seccio) {
+    const resposta = await fetch(API_URL + "?seccio=" + encodeURIComponent(seccio));
+    if (!resposta.ok) throw new Error("Error HTTP " + resposta.status);
+    const dades = await resposta.json();
+    if (!Array.isArray(dades)) throw new Error(dades.error || "Resposta no vàlida");
+    return dades;
+}
+
+function mostrarFiltres(id, dades, pintar) {
+    const zona = document.getElementById(id);
+    zona.replaceChildren();
+    const categories = ["Tots", ...new Set(dades.map(d => String(d.categoria || "").trim()).filter(Boolean))];
+    let activa = "Tots";
+    categories.forEach(cat => {
+        const boto = element("button", "filtre-xip" + (cat === activa ? " actiu" : ""), cat);
+        boto.type = "button";
+        boto.addEventListener("click", () => {
+            activa = cat;
+            zona.querySelectorAll("button").forEach(b => b.classList.toggle("actiu", b === boto));
+            pintar(cat === "Tots" ? dades : dades.filter(d => String(d.categoria).trim() === cat));
+        });
+        zona.append(boto);
+    });
+    pintar(dades);
+}
+
+function idDrive(url) {
+    const text = String(url || "");
+    const match = text.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || text.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    return match ? match[1] : "";
+}
+
+function urlSegura(url) {
+    try {
+        const u = new URL(String(url || ""));
+        return ["https:", "http:"].includes(u.protocol) ? u.href : "";
+    } catch { return ""; }
+}
+
+async function carregarMaterials() {
+    if (contingutsCarregats.materials) return;
+    const zona = document.getElementById("llistaMaterials");
+    try {
+        materialsDades = await llegirSeccio("materials");
+        contingutsCarregats.materials = true;
+        mostrarFiltres("filtresMaterials", materialsDades, pintarMaterials);
+    } catch (err) { zona.textContent = "No s'han pogut carregar els materials. " + err.message; }
+}
+
+function pintarMaterials(dades) {
+    const zona = document.getElementById("llistaMaterials");
+    zona.replaceChildren();
+    if (!dades.length) { zona.append(element("p", "estat-buit", "Encara no hi ha materials en esta categoria.")); return; }
+    dades.forEach(d => {
+        const card = element("button", "fitxa-contingut fitxa-material");
+        card.type = "button";
+        const portada = element("div", "portada-material");
+        portada.append(element("span", "portada-icona", "📖"), element("span", "portada-tipus", d.tipus || "PDF"));
+        const cos = element("div", "cos-fitxa");
+        cos.append(element("small", "etiqueta-fitxa", d.categoria || "Material"), element("h3", "", d.titol || "Sense títol"));
+        if (d.descripcio) cos.append(element("p", "", d.descripcio));
+        card.append(portada, cos);
+        card.addEventListener("click", () => obrirMaterial(d));
+        zona.append(card);
+    });
+}
+
+async function obrirMaterial(d) {
+    const url = urlSegura(d.url);
+    if (!url) { alert("Este material encara no té un enllaç vàlid al Sheets."); return; }
+    document.getElementById("bibliotecaMaterials").hidden = true;
+    document.getElementById("lectorMaterials").hidden = false;
+    document.getElementById("lectorTitol").textContent = d.titol || "Material";
+    document.getElementById("lectorEnllac").href = url;
+    const estat = document.getElementById("lectorEstat");
+    estat.textContent = "Carregant PDF…";
+    document.getElementById("lectorCanvas").style.display = "none";
+    pdfActual = null;
+    const token = ++tokenRender;
+    if (!window.pdfjsLib) {
+        estat.textContent = "No s'ha pogut carregar el lector. Pots obrir el PDF original amb el botó inferior.";
+        actualitzarControlsLector(); return;
+    }
+    try {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        const drive = idDrive(url);
+        const origen = drive ? "https://drive.google.com/uc?export=download&id=" + encodeURIComponent(drive) : url;
+        const pdf = await window.pdfjsLib.getDocument({ url: origen }).promise;
+        if (token !== tokenRender) return;
+        pdfActual = pdf;
+        paginaActual = 1;
+        await pintarPaginaPDF();
+    } catch (err) {
+        if (token !== tokenRender) return;
+        console.warn("El servidor del PDF no permet el lector integrat:", err);
+        estat.textContent = "Google Drive no permet llegir este PDF directament des de l'app. Pots obrir-lo amb el botó «Obrir PDF original».";
+        actualitzarControlsLector();
+    }
+}
+
+async function pintarPaginaPDF() {
+    if (!pdfActual) return;
+    const token = ++tokenRender;
+    const estat = document.getElementById("lectorEstat");
+    estat.textContent = "Carregant pàgina…";
+    try {
+        const pagina = await pdfActual.getPage(paginaActual);
+        const ample = Math.min(document.getElementById("lectorPagina").clientWidth || 400, 750);
+        const escala = ample / pagina.getViewport({ scale: 1 }).width;
+        const viewport = pagina.getViewport({ scale: escala });
+        const canvas = document.getElementById("lectorCanvas");
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(viewport.width * pixelRatio);
+        canvas.height = Math.floor(viewport.height * pixelRatio);
+        canvas.style.width = viewport.width + "px";
+        canvas.style.height = viewport.height + "px";
+        const ctx = canvas.getContext("2d");
+        await pagina.render({ canvasContext: ctx, viewport, transform: [pixelRatio, 0, 0, pixelRatio, 0, 0] }).promise;
+        if (token !== tokenRender) return;
+        canvas.style.display = "block";
+        estat.textContent = "";
+        actualitzarControlsLector();
+    } catch (err) { if (token === tokenRender) estat.textContent = "No s'ha pogut mostrar esta pàgina."; }
+}
+
+function actualitzarControlsLector() {
+    document.getElementById("lectorComptador").textContent = pdfActual ? paginaActual + " / " + pdfActual.numPages : "– / –";
+    document.getElementById("lectorAnterior").disabled = !pdfActual || paginaActual <= 1;
+    document.getElementById("lectorSeguent").disabled = !pdfActual || paginaActual >= pdfActual.numPages;
+}
+
+function passarPagina(delta) {
+    if (!pdfActual) return;
+    const nova = paginaActual + delta;
+    if (nova < 1 || nova > pdfActual.numPages) return;
+    paginaActual = nova;
+    pintarPaginaPDF();
+}
+
+function tancarLector() {
+    ++tokenRender;
+    pdfActual = null;
+    const biblioteca = document.getElementById("bibliotecaMaterials");
+    const lector = document.getElementById("lectorMaterials");
+    if (biblioteca) biblioteca.hidden = false;
+    if (lector) lector.hidden = true;
+}
+
+async function carregarMultimedia() {
+    if (contingutsCarregats.multimedia) return;
+    const zona = document.getElementById("llistaMultimedia");
+    try {
+        multimediaDades = await llegirSeccio("multimedia");
+        contingutsCarregats.multimedia = true;
+        mostrarFiltres("filtresMultimedia", multimediaDades, pintarMultimedia);
+    } catch (err) { zona.textContent = "No s'ha pogut carregar la multimèdia. " + err.message; }
+}
+
+function pintarMultimedia(dades) {
+    const zona = document.getElementById("llistaMultimedia");
+    zona.replaceChildren();
+    if (!dades.length) { zona.append(element("p", "estat-buit", "Encara no hi ha continguts en esta categoria.")); return; }
+    dades.forEach(d => {
+        const url = urlSegura(d.url);
+        const card = element("article", "fitxa-contingut fitxa-multimedia");
+        const tipus = String(d.tipus || "").toLowerCase();
+        const icona = tipus.includes("youtube") || tipus.includes("vídeo") || tipus.includes("video") ? "▶️" : tipus.includes("spotify") ? "🎵" : "🎧";
+        const cos = element("div", "cos-fitxa");
+        cos.append(element("small", "etiqueta-fitxa", d.categoria || d.tipus || "Multimèdia"), element("h3", "", d.titol || "Sense títol"));
+        if (d.descripcio) cos.append(element("p", "", d.descripcio));
+        const bot = element("a", "boto-contingut", "Escoltar / veure ↗");
+        if (url) { bot.href = url; bot.target = "_blank"; bot.rel = "noopener noreferrer"; }
+        else { bot.textContent = "Enllaç pendent"; bot.classList.add("desactivat"); }
+        card.append(element("div", "multimedia-icona", icona), cos, bot);
+        zona.append(card);
+    });
+}
+
+function dataLocalISO(data) {
+    return data.getFullYear() + "-" + String(data.getMonth() + 1).padStart(2, "0") + "-" + String(data.getDate()).padStart(2, "0");
+}
+function dataEvent(event) {
+    // Els esdeveniments de dia complet conserven el dia de la data ISO.
+    return event.totElDia ? String(event.inici).slice(0, 10) : dataLocalISO(new Date(event.inici));
+}
+async function carregarCalendari() {
+    if (contingutsCarregats.calendari) { pintarCalendari(); return; }
+    const zona = document.getElementById("eventsDia");
+    zona.textContent = "Carregant agenda…";
+    try {
+        eventsDades = await llegirSeccio("calendari");
+        contingutsCarregats.calendari = true;
+        pintarCalendari();
+    } catch (err) { zona.textContent = "No s'ha pogut carregar el calendari. " + err.message; }
+}
+function moureMes(delta) {
+    mesVisible = new Date(mesVisible.getFullYear(), mesVisible.getMonth() + delta, 1);
+    diaSeleccionat = new Date(mesVisible);
+    pintarCalendari();
+}
+function pintarCalendari() {
+    const y = mesVisible.getFullYear(), m = mesVisible.getMonth();
+    document.getElementById("mesActual").textContent = new Intl.DateTimeFormat("ca-ES", { month: "long", year: "numeric" }).format(mesVisible);
+    const zona = document.getElementById("graellaCalendari");
+    zona.replaceChildren();
+    const primer = (new Date(y, m, 1).getDay() + 6) % 7;
+    const total = new Date(y, m + 1, 0).getDate();
+    for (let i = 0; i < primer; i++) zona.append(element("span", "dia-buit"));
+    const datesEvents = new Set(eventsDades.map(dataEvent));
+    for (let dia = 1; dia <= total; dia++) {
+        const data = new Date(y, m, dia), clau = dataLocalISO(data);
+        const bot = element("button", "dia-calendari", dia);
+        bot.type = "button";
+        if (datesEvents.has(clau)) bot.classList.add("amb-event");
+        if (clau === dataLocalISO(new Date())) bot.classList.add("hui");
+        if (clau === dataLocalISO(diaSeleccionat)) bot.classList.add("triat");
+        bot.setAttribute("aria-label", dia + " de " + document.getElementById("mesActual").textContent);
+        bot.addEventListener("click", () => { diaSeleccionat = data; pintarCalendari(); });
+        zona.append(bot);
+    }
+    pintarEventsDia();
+}
+function pintarEventsDia() {
+    const clau = dataLocalISO(diaSeleccionat);
+    document.getElementById("titolDia").textContent = new Intl.DateTimeFormat("ca-ES", { day: "numeric", month: "long", year: "numeric" }).format(diaSeleccionat);
+    const zona = document.getElementById("eventsDia");
+    zona.replaceChildren();
+    const events = eventsDades.filter(ev => dataEvent(ev) === clau);
+    if (!events.length) { zona.append(element("p", "estat-buit", "No hi ha activitats programades per a este dia.")); return; }
+    events.forEach(ev => {
+        const card = element("article", "event-targeta");
+        card.append(element("h4", "", ev.titol || "Activitat"));
+        if (!ev.totElDia) card.append(element("p", "", "🕒 " + new Intl.DateTimeFormat("ca-ES", { hour: "2-digit", minute: "2-digit" }).format(new Date(ev.inici))));
+        if (ev.lloc) card.append(element("p", "", "📍 " + ev.lloc));
+        if (ev.descripcio) card.append(element("p", "", ev.descripcio));
+        zona.append(card);
+    });
+}

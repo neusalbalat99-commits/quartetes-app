@@ -882,3 +882,65 @@ select {
     }
 
 }
+
+
+/* =========================================================
+   NOVA VERSIÓ: BIBLIOTECA, MULTIMÈDIA I AGENDA
+   No altera les targetes .item del llistat.
+========================================================= */
+[hidden] { display: none !important; }
+.cap-seccio { margin: 4px 0 20px; }
+.cap-seccio h2 { margin: 0 0 6px; font-size: 24px; }
+.cap-seccio p { margin: 0; color: var(--text-soft); font-size: 14px; }
+.filtres-contingut { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 14px; scrollbar-width: none; }
+.filtre-xip { flex: none; background: white; color: #466139; border: 1px solid #dce8d5; padding: 9px 15px; border-radius: 24px; font-size: 13px; }
+.filtre-xip.actiu { background: var(--primary); color: #22391c; border-color: var(--primary); font-weight: 700; }
+.graella-contingut { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.fitxa-contingut { min-width: 0; padding: 0; overflow: hidden; border: 0; border-radius: 16px; background: white; color: var(--text); text-align: left; box-shadow: var(--shadow-card); }
+.fitxa-material { display: block; width: 100%; }
+.portada-material { position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; aspect-ratio: 9 / 12; background: linear-gradient(150deg, #e2f1d9, #a8d48c); }
+.portada-icona { font-size: 52px; }
+.portada-tipus { background: #ffffffbb; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+.cos-fitxa { padding: 13px; }
+.etiqueta-fitxa { color: #64834e; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; }
+.cos-fitxa h3 { margin: 6px 0; font-size: 16px; line-height: 1.3; }
+.cos-fitxa p { margin: 6px 0 0; color: var(--text-soft); font-size: 12px; line-height: 1.4; }
+.fitxa-multimedia { display: flex; flex-direction: column; }
+.multimedia-icona { display: grid; place-items: center; min-height: 115px; font-size: 46px; background: #e2f1d9; }
+.boto-contingut { display: block; margin: auto 13px 13px; padding: 10px; border-radius: 10px; background: var(--primary); color: #263b1e; font-size: 13px; font-weight: 700; text-align: center; text-decoration: none; }
+.boto-contingut.desactivat { background: #e9e9e9; color: #777; }
+.estat-buit { grid-column: 1 / -1; padding: 22px; border-radius: 14px; background: white; color: var(--text-soft); font-size: 14px; }
+.lector-cap { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 14px; }
+.lector-cap strong { font-size: 16px; }
+.lector-tornar { background: #e2f1d9; color: #294421; font-size: 13px; }
+.lector-estat { text-align: center; color: var(--text-soft); font-size: 13px; line-height: 1.5; }
+.lector-estat:not(:empty) { padding: 18px 10px; }
+.lector-pagina { width: 100%; max-width: 650px; margin: 0 auto; }
+.lector-pagina canvas { display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 10px; box-shadow: var(--shadow-card); }
+.lector-controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 15px auto; max-width: 650px; }
+.lector-controls button { font-size: 13px; }
+.lector-controls button:disabled { opacity: .35; }
+.lector-controls span { white-space: nowrap; font-size: 14px; font-weight: 700; }
+.enllac-material { display: block; text-align: center; margin: 12px auto 22px; color: #416b34; font-size: 14px; }
+.calendari-targeta { background: white; border-radius: 17px; padding: 13px 10px 16px; box-shadow: var(--shadow-card); }
+.mes-navegacio { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; }
+.mes-navegacio h3 { margin: 0; font-size: 19px; text-transform: capitalize; }
+.mes-navegacio button { background: #e8f3e1; color: #426c31; font-size: 24px; padding: 4px 14px; }
+.dies-setmana, .graella-calendari { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; gap: 4px; }
+.dies-setmana { margin-bottom: 7px; color: var(--text-soft); font-size: 12px; font-weight: 700; }
+.dia-calendari { position: relative; aspect-ratio: 1; padding: 0; border-radius: 12px; background: transparent; color: var(--text); font-size: 14px; }
+.dia-calendari.amb-event::after { content: ""; position: absolute; bottom: 4px; left: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%; background: #5e9946; }
+.dia-calendari.hui { border: 1px solid var(--primary-dark); }
+.dia-calendari.triat { background: var(--primary); font-weight: bold; }
+.dia-calendari.triat.amb-event::after { background: #305f25; }
+.titol-dia { margin: 22px 2px 12px; font-size: 18px; text-transform: capitalize; }
+.events-dia { display: grid; gap: 10px; }
+.event-targeta { background: white; border-left: 5px solid var(--primary); border-radius: 12px; padding: 14px; box-shadow: var(--shadow-soft); }
+.event-targeta h4 { margin: 0 0 9px; font-size: 16px; }
+.event-targeta p { margin: 5px 0; font-size: 13px; line-height: 1.5; white-space: pre-line; }
+.bottom-nav { height: 69px; justify-content: space-between; padding: 0 4px; }
+.bottom-nav button { flex: 1; min-width: 0; padding: 5px 0; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 21px; border-radius: 0; }
+.bottom-nav button small { font-size: 10px; font-weight: 600; }
+.bottom-nav button.seleccionat { color: #4b7c39; background: #f2f8ed; }
+@media (max-width: 360px) { .graella-contingut { gap: 8px; } .cos-fitxa { padding: 10px; } .cos-fitxa h3 { font-size: 14px; } .bottom-nav button small { font-size: 9px; } }
+@media (min-width: 700px) { .graella-contingut { grid-template-columns: repeat(3, minmax(0, 1fr)); } .portada-material { aspect-ratio: 9 / 11; } }
